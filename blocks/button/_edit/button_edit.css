@@ -1,0 +1,8 @@
+.button_edit {
+    width: 24px;
+    height: 24px;  
+    border: 1px solid #FFFFFF;
+    position: absolute;
+    right: 0;
+    top: 14px;
+  }
