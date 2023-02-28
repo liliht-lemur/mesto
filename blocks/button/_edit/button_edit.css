@@ -1,6 +1,6 @@
 .button_edit {
     width: 24px;
-    height: 24px;  
+    height: 24px;
     border: 1px solid #FFFFFF;
     position: absolute;
     right: 0;
@@ -19,7 +19,7 @@
   @media (max-width: 350px) {
     .button_edit {
       width: 18px;
-      height: 18px; 
+      height: 18px;
       right: 19px;
       top: 34px;
     }
