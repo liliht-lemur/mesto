@@ -1,0 +1,6 @@
+@media (max-width: 350px) {
+  .button__image_edit {
+    width: 7.5px;
+    height: 7.5px;
+  }
+}

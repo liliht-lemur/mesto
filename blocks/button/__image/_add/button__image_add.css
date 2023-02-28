@@ -1,0 +1,6 @@
+@media (max-width: 320px) {
+  .button__image_add {
+    width: 16px;
+    height: 16px;
+  }
+}
