@@ -21,16 +21,12 @@
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <p class="profile__subtitle">Исследователь океана</p>
           <button class="button button_edit cursor">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 1.32827L2.60377 8.7666L1.28302 7.41936L8.66038 0L10 1.32827ZM0 10L1.96226 9.41177L0.584906 8.08349L0 10Z" fill="white"/>
-              </svg>
+            <img src="./images/Vector.svg" alt="Изменить" class="button_edit-image">
           </button>
         </div>
       </div>
       <button class="button button_add cursor">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22 9.77778H12.2222V0H9.77778V9.77778H0V12.2222H9.77778V22H12.2222V12.2222H22V9.77778Z" fill="white"/>
-          </svg>
+        <img src="./images/Plus.svg" alt="Добавить" class="button_add-image">
       </button> 
     </section>
     <section class="elements content" aria-label="Фото">
@@ -93,5 +89,19 @@
   <footer class="footer content">
     <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
   </footer>
+  <aside class="modal">
+    <div class="modal__overlay">
+      <div class="modal__form">
+        <div class="modal__close cursor"><img src="./images/Close_Icon.svg" alt="Закрыть"></div>
+        <h2 class="modal__title">Редактировать профиль</h2>
+        <form class="modal__edit" action="#">
+          <input class="modal__description modal__description_type_name" id="name" name="name" required type="text">
+          <input class="modal__description modal__description_type_about-self" id="about-self" name="about-self" required type="text">
+          <button class="button button_submit cursor">Сохранить</button>
+        </form>
+      </div>  
+    </div> 
+  </aside>  
+  <script src="js/script.js"></script>   
 </body>
 </html>

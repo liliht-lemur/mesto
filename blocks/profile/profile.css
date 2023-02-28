@@ -3,9 +3,16 @@
   display: flex;
   justify-content: space-between;
 }
-
-
-
+@media (max-width: 695px) {
+  .profile {
+    flex-direction: column;
+  }
+}
+@media (max-width: 320px) {
+  .profile {
+    margin-top: 42px;
+  }
+}
 
 
 

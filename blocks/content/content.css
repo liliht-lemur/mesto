@@ -2,15 +2,8 @@
   max-width: 880px;
   margin: 0 auto;
 }
-/* @media (max-width: 768px) {
-  .wide-content {
-    padding-right: 24px;
-    padding-left: 24px;
+@media (max-width: 880px) {
+  .content {
+    padding: 0 19px 0;
   }
 }
-@media (max-width: 320px) {
-  .wide-content {
-    padding-right: 16px;
-    padding-left: 16px;
-  }
-} */

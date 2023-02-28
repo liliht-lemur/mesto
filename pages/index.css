@@ -4,6 +4,7 @@
 @import url(../blocks/cursor/cursor.css);
 @import url(../blocks/content/content.css);
 @import url(../blocks/header/header.css);
+@import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__list/profile__list.css);
 @import url(../blocks/profile/__image/profile__image.css);
@@ -13,7 +14,9 @@
 @import url(../blocks/button/button.css);
 @import url(../blocks/button/_edit/button_edit.css);
 @import url(../blocks/button/_add/button_add.css);
+@import url(../blocks/button/_submit/button_submit.css);
 @import url(../blocks/elements/elements.css);
+@import url(../blocks/element/element.css);
 @import url(../blocks/element/__list/element__list.css);
 @import url(../blocks/element/__name/element__name.css);
 @import url(../blocks/element/__photo/element__photo.css);
@@ -21,4 +24,10 @@
 @import url(../blocks/element/__like/element__like.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
-
+@import url(../blocks/modal/__close/modal__close.css);
+@import url(../blocks/modal/__description/modal__description.css);
+@import url(../blocks/modal/__edit/modal__edit.css);
+@import url(../blocks/modal/__form/modal__form.css);
+@import url(../blocks/modal/__overlay/modal__overlay.css);
+@import url(../blocks/modal/__overlay/_active/modal__overlay_active.css);
+@import url(../blocks/modal/__title/modal__title.css);

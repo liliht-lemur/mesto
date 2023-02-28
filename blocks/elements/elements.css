@@ -7,19 +7,8 @@
   margin-top: 50px;
   grid-auto-rows: auto;
 }
-
-
-
-
-
-/* @media (max-width: 768px) {
-  .photo-grid {
-    margin-top: 88px;
-  }
-}
 @media (max-width: 320px) {
-  .photo-grid {
-    margin-top: 64px;
-    gap: 12px;
+  .elements {
+    margin-top: 36px;
   }
-} */
+}  

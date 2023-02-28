@@ -1,0 +1,19 @@
+.modal__close {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  color: #ffff;
+  z-index: 10;
+  cursor: pointer;
+}
+@media (max-width: 592px) {
+  .modal__close {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    top: -36px;
+    right: 0;
+  }
+}

@@ -2,12 +2,12 @@
   margin-top: 66px;
   margin-bottom: 60px;
 }
-/* @media (max-width: 720px) {
+@media (max-width: 320px) {
   .footer {
-    margin-top: 64px;
-    padding-bottom: 24px;
+    margin-top: 48px;
+    margin-bottom: 36px;
   }
-} */
+}
 
 
 
