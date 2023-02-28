@@ -15,7 +15,7 @@
       right: 0;
       top: 8px;
     }
-  }  
+  }
   @media (max-width: 350px) {
     .button_edit {
       width: 18px;
@@ -25,6 +25,6 @@
     }
     .button_edit-image {
       width: 7.5px;
-      height: 7.5px; 
+      height: 7.5px;
     }
-  }  
+  }

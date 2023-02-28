@@ -1,5 +1,5 @@
 .profile__description {
-  display: flex;  
+  display: flex;
   flex-direction: column;
   align-self: center;
   position: relative;
@@ -10,9 +10,9 @@
   .profile__description {
     margin-left: 0;
   }
-}  
+}
 @media (max-width: 320px) {
   .profile__description {
     width: 282px;
   }
-}  
+}

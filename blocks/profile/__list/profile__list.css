@@ -1,5 +1,5 @@
 .profile__list {
-  display: flex;  
+  display: flex;
 }
 @media (max-width: 528px) {
   .profile__list {
