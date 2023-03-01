@@ -1,11 +1,17 @@
 .element__like {
   height: 19px;
   width: 22px;
-  padding-top: 5px;
-  padding-right: 5px;
+  background-image: url(../../../images/heart_.svg);
+  background-repeat: no-repeat;
+  border: none;
+  background-color: #FFFFFF;
+  padding: 0;
+  align-self: center;
 }
 .element__like:hover {
   cursor: pointer;
 }
-
+.element__like:active {
+  background-image: url(../../../images/heart_black.svg);
+}
 

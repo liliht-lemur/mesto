@@ -3,24 +3,29 @@
     height: 24px;
     border: 1px solid #FFFFFF;
     position: absolute;
-    right: 0;
+    right: -42px;
     top: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
-  @media (max-width: 373px) {
+  @media (max-width: 566px) {
     .button_edit {
-      right: 0;
-      top: 8px;
+      right: -14px;
+      top: 15px;
     }
   }
-  @media (max-width: 350px) {
+  @media (max-width: 370px) {
     .button_edit {
       width: 18px;
       height: 18px;
       right: 19px;
+      top: 12px;
+    }
+  }
+  @media (max-width: 320px) {
+    .button_edit {
       top: 34px;
     }
   }

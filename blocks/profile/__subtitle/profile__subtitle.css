@@ -5,6 +5,8 @@
   font-size: 18px;
   line-height: 22px;
   color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
 }
 @media (max-width: 528px) {
   .profile__subtitle {

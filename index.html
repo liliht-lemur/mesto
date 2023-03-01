@@ -20,68 +20,56 @@
         <div class="profile__description">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <p class="profile__subtitle">Исследователь океана</p>
-          <button class="button button_edit cursor">
+          <button aria-label="edit" class="button button_edit cursor">
             <img src="./images/Vector.svg" alt="Изменить" class="button__image button__image_edit">
           </button>
         </div>
       </div>
-      <button class="button button_add cursor">
+      <button aria-label="add" class="button button_add cursor">
         <img src="./images/Plus.svg" alt="Добавить" class="button__image button__image_add">
-      </button> 
+      </button>
     </section>
     <section class="elements content" aria-label="Фото">
       <div class="element">
-        <div class="element__list">
-          <img src="./images/Karachaevsk.png" alt="Карачаевск" class="element__photo">
-          <div class="element__name">
-            <h2 class="element__title">Карачаевск</h2>
-            <img src="./images/heart.svg" alt="Сердце" class="element__like">
-          </div>
+        <img src="./images/Karachaevsk.png" alt="Карачаевск" class="element__photo">
+        <div class="element__name">
+          <h2 class="element__title">Карачаевск</h2>
+          <button aria-label="like" class="element__like"></button>
         </div>
       </div>
       <div class="element">
-        <div class="element__list">
-          <img src="./images/elbrus.png" alt="Гора Эльбрус" class="element__photo">
-          <div class="element__name">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <img src="./images/heart.svg" alt="Сердце" class="element__like">
-          </div>
+        <img src="./images/elbrus.png" alt="Гора Эльбрус" class="element__photo">
+        <div class="element__name">
+          <h2 class="element__title">Гора Эльбрус</h2>
+          <button aria-label="like" class="element__like"></button>
         </div>
       </div>
       <div class="element">
-        <div class="element__list">
-          <img src="./images/Dombay.png" alt="Домбай" class="element__photo">
-          <div class="element__name">
-            <h2 class="element__title">Домбай</h2>
-            <img src="./images/heart.svg" alt="Сердце" class="element__like">
-          </div>
+        <img src="./images/Dombay.png" alt="Домбай" class="element__photo">
+        <div class="element__name">
+          <h2 class="element__title">Домбай</h2>
+          <button aria-label="like" class="element__like"></button>
         </div>
       </div>
       <div class="element">
-        <div class="element__list">
-          <img src="./images/elbrus.png" alt="Гора Эльбрус" class="element__photo">
-          <div class="element__name">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <img src="./images/heart.svg" alt="Сердце" class="element__like">
-          </div>
+        <img src="./images/elbrus.png" alt="Гора Эльбрус" class="element__photo">
+        <div class="element__name">
+          <h2 class="element__title">Гора Эльбрус</h2>
+          <button aria-label="like" class="element__like"></button>
         </div>
       </div>
       <div class="element">
-        <div class="element__list">
-          <img src="./images/Dombay.png" alt="Домбай" class="element__photo">
-          <div class="element__name">
-            <h2 class="element__title">Домбай</h2>
-            <img src="./images/heart.svg" alt="Сердце" class="element__like">
-          </div>
+        <img src="./images/Dombay.png" alt="Домбай" class="element__photo">
+        <div class="element__name">
+          <h2 class="element__title">Домбай</h2>
+          <button aria-label="like" class="element__like"></button>
         </div>
       </div>
       <div class="element">
-        <div class="element__list">
-          <img src="./images/Karachaevsk.png" alt="Карачаево-Черкессия" class="element__photo">
-          <div class="element__name">
-            <h2 class="element__title">Карачаево-Черкессия</h2>
-            <img src="./images/heart.svg" alt="Сердце" class="element__like">
-          </div>
+        <img src="./images/Karachaevsk.png" alt="Карачаево-Черкессия" class="element__photo">
+        <div class="element__name">
+          <h2 class="element__title">Карачаево-Черкессия</h2>
+          <button aria-label="like" class="element__like"></button>
         </div>
       </div>
     </section>
@@ -92,16 +80,17 @@
   <aside class="modal">
     <div class="modal__overlay">
       <div class="modal__form">
-        <div class="modal__close cursor"><img src="./images/Close_Icon.svg" alt="Закрыть"></div>
+        <button aria-label="close" class="modal__close cursor"><img src="./images/Close_Icon.svg" alt="Закрыть"></button>
         <h2 class="modal__title">Редактировать профиль</h2>
         <form class="modal__edit" action="#">
-          <input class="modal__description modal__description_type_name" id="name" name="name" required type="text">
-          <input class="modal__description modal__description_type_about-self" id="about-self" name="about-self" required type="text">
-          <button class="button button_submit cursor">Сохранить</button>
+          <input class="modal__description modal__description_type_name" id="name" name="name" type="text">
+          <input class="modal__description modal__description_type_about-self" id="about-self" name="about-self"
+            type="text">
+          <button aria-label="save" class="button button_submit cursor">Сохранить</button>
         </form>
-      </div>  
-    </div> 
-  </aside>  
-  <script src="js/script.js"></script>   
+      </div>
+    </div>
+  </aside>
+  <script src="js/script.js"></script>
 </body>
 </html>
