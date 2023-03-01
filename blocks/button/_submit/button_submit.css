@@ -1,5 +1,5 @@
 .button_submit {
-  width: 358px;
+  width: 100%;
   height: 50px;
   border-radius: 2px;
   font-weight: 400;
@@ -8,13 +8,12 @@
   text-align: center;
   color: #FFFFFF;
   margin-top: 18px;
+  border: none;
 }
 @media (max-width: 592px) {
   .button_submit {
-    width: 238px;
+    width: 100%;
     height: 46px;
-    left: 41px;
-    top: 374px;
     font-size: 14px;
     line-height: 17px;
     margin-top: 15px;
