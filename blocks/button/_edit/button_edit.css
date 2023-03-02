@@ -24,8 +24,3 @@
       top: 12px;
     }
   }
-  @media (max-width: 320px) {
-    .button_edit {
-      top: 34px;
-    }
-  }
