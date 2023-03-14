@@ -13,7 +13,7 @@
 }
 @media (max-width: 592px) {
   .modal__form {
-    width: 282px;
+    min-width: 282px;
     padding: 25px 22px;
   }
 }
