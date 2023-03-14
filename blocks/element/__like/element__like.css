@@ -11,7 +11,5 @@
 .element__like:hover {
   cursor: pointer;
 }
-.element__like:active {
-  background-image: url(../../../images/heart_black.svg);
-}
+
 
