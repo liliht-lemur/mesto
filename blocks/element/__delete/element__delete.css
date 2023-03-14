@@ -1,0 +1,12 @@
+.element__delete {
+  height: 19px;
+  width: 18px;
+  background-image: url(../../../images/Group_trash.svg);
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

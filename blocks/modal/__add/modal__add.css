@@ -1,0 +1,13 @@
+.modal__add {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 54px;
+}
+@media (max-width: 592px) {
+  .modal__add {
+    margin-top: 75px;
+  }
+}
