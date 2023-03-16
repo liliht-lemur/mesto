@@ -28,13 +28,13 @@ const initialCards = [
 ];
 const elements = document.querySelector('.elements');
 
-initialCards.forEach(createCard);
+initialCards.forEach(renderCard);
 
-const modalWindow = document.querySelector('.modal__overlay');
-const modalClose = modalWindow.querySelector('.modal__close');
-const modalName = modalWindow.querySelector('.modal__description_type_name');
-const modalAboutSelf = modalWindow.querySelector('.modal__description_type_about-self');
-const form = modalWindow.querySelector('.modal__edit');
+const modalWindowProfile = document.querySelector('.modal__overlay');
+const buttonCloseModalWindowProfile = modalWindowProfile.querySelector('.modal__close');
+const inputNameFormProfile = modalWindowProfile.querySelector('.modal__description_type_name');
+const inputAboutSelfFormProfile = modalWindowProfile.querySelector('.modal__description_type_about-self');
+const formProfile = modalWindowProfile.querySelector('.modal__edit');
 
 const profile = document.querySelector('.profile');
 const myName =  profile.querySelector('.profile__title');
@@ -42,29 +42,39 @@ const aboutSelf = profile.querySelector('.profile__subtitle');
 const editButton = profile.querySelector('.button_edit');
 const addButton = profile.querySelector('.button_add');
 
+
+const modalWindowImg = document.querySelector('.modal__overlay_img');
+const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
+
 // Изменение профиля 
 
 editButton.addEventListener('click', function(){
-  modalWindow.classList.add('modal__overlay_active');
-  modalName.value = myName.textContent;
-  modalAboutSelf.value = aboutSelf.textContent;
+  toggleVisibilityModalWindow(modalWindowProfile);
+  inputNameFormProfile.value = myName.textContent;
+  inputAboutSelfFormProfile.value = aboutSelf.textContent;
 });
 
-addClickEvent(modalClose, modalWindow, false);
+addClickEvent(buttonCloseModalWindowProfile, modalWindowProfile, false);
 
-form.addEventListener('submit', handleFormSubmit);
+formProfile.addEventListener('submit', handleFormProfileSubmit);
 
 // Форма добавления карточки
 
-const modalWindowAdd = document.querySelector('.modal__overlay_add');
-const modalCloseAdd = modalWindowAdd.querySelector('.modal__close_add');
+const modalWindowAddNewCard = document.querySelector('.modal__overlay_add');
+const buttonCloseModalWindowAddNewCard = modalWindowAddNewCard.querySelector('.modal__close_add');
 
-addClickEvent(addButton, modalWindowAdd );
-addClickEvent(modalCloseAdd, modalWindowAdd, false);
+addClickEvent(addButton, modalWindowAddNewCard );
+addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
 
 
-const formAdd = document.querySelector('.modal__add');
-formAdd.addEventListener('submit', handleFormAddSubmit);
+// close image modal window
+const formAddNewCard = document.querySelector('.modal__add');
+formAddNewCard.addEventListener('submit', handleFormAddSubmit);
+addClickEvent(modalCloseImg, modalWindowImg, false);
+
+
+const imageTitle = document.querySelector('.modal__title_img');
+const imagePhoto = document.querySelector('.modal__photo');
 
 
 
@@ -72,9 +82,14 @@ formAdd.addEventListener('submit', handleFormAddSubmit);
 
 // block with functions
 
+
+function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true ){
+  isNeedOpen ? modalWindow.classList.add('modal__overlay_active') : modalWindow.classList.remove('modal__overlay_active');
+}
+
 function addClickEvent(target, item, isAddEvent = true) {
   target.addEventListener('click', function(){
-    isAddEvent ? item.classList.add('modal__overlay_active') : item.classList.remove('modal__overlay_active');
+    toggleVisibilityModalWindow(item, isAddEvent);
   })
 }
 
@@ -85,11 +100,26 @@ function handleFormAddSubmit (evt) {
   const name = form.querySelector('.modal__description_type_heading').value;
   const link = form.querySelector('.modal__description_type_link').value;
   const card = {name, link};
-  createCard(card, false);
-  modalWindowAdd.classList.remove('modal__overlay_active');
+  renderCard(card, false);
+  toggleVisibilityModalWindow(modalWindowAddNewCard, false);
 }
 
-function createCard(item, isDefaultCard = true) {
+
+function renderCard(cardDetails, isInsertLast=true) {
+  const newCard = createCard(cardDetails);
+
+  isInsertLast ? elements.append(newCard) : elements.prepend(newCard);
+}
+
+
+function createCard(item) {
+  /*
+  при попытке использовать querySelector и найти элемент, который внутри temlate, чтобы клонировать элемент, входящий в шаблон
+  const element = document.querySelector('.element');
+  element = null
+  В тренажере при отработке теории и лайвкодинге наставник показывал тоже такой способ. 
+  Прошу более подробно объяснить Ваш подход
+  */
   const newCard = document.querySelector('#cardTemplate').content.cloneNode(true);
   const cardTitle = newCard.querySelector('.element__title');
 
@@ -107,27 +137,19 @@ function createCard(item, isDefaultCard = true) {
 
   // Удаление карточки
   const deleteButton = newCard.querySelector('.element__delete');
-
   deleteButton.addEventListener('click', handleDeleteButton);
-  isDefaultCard ? elements.append(newCard)  : elements.prepend(newCard);
-
-  const modalWindowImg = document.querySelector('.modal__overlay_img');
-  const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
 
   cardImage.addEventListener('click', function(event){
-    modalWindowImg.classList.add('modal__overlay_active');
+    toggleVisibilityModalWindow(modalWindowImg);
     resizeCard(event.target, item.name);
   })
 
-  addClickEvent(modalCloseImg, modalWindowImg, false);
+  return newCard;
 }
 
 
   // Увеличение изображения карточки
 function resizeCard(item, title) {
-  const imageTitle = document.querySelector('.modal__title_img');
-  const imagePhoto = document.querySelector('.modal__photo');
-
   imageTitle.textContent = title;
   imagePhoto.setAttribute('src' , item.src);
   imagePhoto.setAttribute('alt' , item.alt);
@@ -146,11 +168,11 @@ function handleDeleteButton(event) {
   card.remove();
 };
 
-function handleFormSubmit (evt) {
+function handleFormProfileSubmit (evt) {
   evt.preventDefault();
-  myName.textContent = modalName.value;
-  aboutSelf.textContent = modalAboutSelf.value;
-  modalWindow.classList.remove('modal__overlay_active');
+  myName.textContent = inputNameFormProfile.value;
+  aboutSelf.textContent = inputAboutSelfFormProfile.value;
+  toggleVisibilityModalWindow(modalWindowProfile, false);
 }
 
 
