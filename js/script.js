@@ -26,6 +26,7 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+const template = document.querySelector('#cardTemplate');
 const elements = document.querySelector('.elements');
 
 initialCards.forEach(renderCard);
@@ -113,14 +114,7 @@ function renderCard(cardDetails, isInsertLast=true) {
 
 
 function createCard(item) {
-  /*
-  при попытке использовать querySelector и найти элемент, который внутри temlate, чтобы клонировать элемент, входящий в шаблон
-  const element = document.querySelector('.element');
-  element = null
-  В тренажере при отработке теории и лайвкодинге наставник показывал тоже такой способ. 
-  Прошу более подробно объяснить Ваш подход
-  */
-  const newCard = document.querySelector('#cardTemplate').content.cloneNode(true);
+  const newCard = template.content.firstElementChild.cloneNode(true);
   const cardTitle = newCard.querySelector('.element__title');
 
   cardTitle.textContent = item.name;
