@@ -7,8 +7,14 @@
   line-height: 22px;
   text-align: center;
   color: #FFFFFF;
-  margin-top: 18px;
+  margin-top: 6px;
   border: none;
+}
+.button_submit-disabled {
+  border: 1px solid #000000;
+  background-color: #FFFFFF;
+  color: #000000;
+  opacity: 0.2;
 }
 @media (max-width: 592px) {
   .button_submit {
@@ -16,6 +22,6 @@
     height: 46px;
     font-size: 14px;
     line-height: 17px;
-    margin-top: 15px;
+    margin-top: 6px;
   }
 }

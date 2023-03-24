@@ -37,8 +37,9 @@ const inputNameFormProfile = modalWindowProfile.querySelector('.modal__descripti
 const inputAboutSelfFormProfile = modalWindowProfile.querySelector('.modal__description_type_about-self');
 const formProfile = modalWindowProfile.querySelector('.modal__edit');
 
+
 const profile = document.querySelector('.profile');
-const myName =  profile.querySelector('.profile__title');
+const myName = profile.querySelector('.profile__title');
 const aboutSelf = profile.querySelector('.profile__subtitle');
 const editButton = profile.querySelector('.button_edit');
 const addButton = profile.querySelector('.button_add');
@@ -49,8 +50,9 @@ const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
 
 // Изменение профиля 
 
-editButton.addEventListener('click', function(){
+editButton.addEventListener('click', function () {
   toggleVisibilityModalWindow(modalWindowProfile);
+
   inputNameFormProfile.value = myName.textContent;
   inputAboutSelfFormProfile.value = aboutSelf.textContent;
 });
@@ -64,7 +66,7 @@ formProfile.addEventListener('submit', handleFormProfileSubmit);
 const modalWindowAddNewCard = document.querySelector('.modal__overlay_add');
 const buttonCloseModalWindowAddNewCard = modalWindowAddNewCard.querySelector('.modal__close_add');
 
-addClickEvent(addButton, modalWindowAddNewCard );
+addClickEvent(addButton, modalWindowAddNewCard);
 addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
 
 
@@ -78,24 +80,37 @@ const imageTitle = document.querySelector('.modal__title_img');
 const imagePhoto = document.querySelector('.modal__photo');
 
 
+document.addEventListener('keyup', event => {
+  if (event.key === 'Escape') {
+    const activeModalWindows = document.querySelector('.modal__overlay_active');
+
+    if (activeModalWindows) {
+      toggleVisibilityModalWindow(activeModalWindows, false);
+    }
+  }
+});
+
+document.addEventListener('click', event => {
+  if (event.target.classList.contains('modal__overlay_active')) {
+    toggleVisibilityModalWindow(event.target, false);
+  }
+});
 
 
+// block with old functions
 
-// block with functions
-
-
-function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true ){
+function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true) {
   isNeedOpen ? modalWindow.classList.add('modal__overlay_active') : modalWindow.classList.remove('modal__overlay_active');
 }
 
 function addClickEvent(target, item, isAddEvent = true) {
-  target.addEventListener('click', function(){
+  target.addEventListener('click', function () {
     toggleVisibilityModalWindow(item, isAddEvent);
-  })
+  });
 }
 
 
-function handleFormAddSubmit (evt) {
+function handleFormAddSubmit(evt) {
   evt.preventDefault();
   const form = evt.target;
   const name = form.querySelector('.modal__description_type_heading').value;
@@ -106,7 +121,7 @@ function handleFormAddSubmit (evt) {
 }
 
 
-function renderCard(cardDetails, isInsertLast=true) {
+function renderCard(cardDetails, isInsertLast = true) {
   const newCard = createCard(cardDetails);
 
   isInsertLast ? elements.append(newCard) : elements.prepend(newCard);
@@ -121,8 +136,8 @@ function createCard(item) {
 
   const cardImage = newCard.querySelector('.element__photo');
 
-  cardImage.setAttribute('src' , item.link);
-  cardImage.setAttribute('alt' , item.name);
+  cardImage.setAttribute('src', item.link);
+  cardImage.setAttribute('alt', item.name);
 
   // Лайк карточки
   const likeButton = newCard.querySelector('.element__like');
@@ -133,20 +148,20 @@ function createCard(item) {
   const deleteButton = newCard.querySelector('.element__delete');
   deleteButton.addEventListener('click', handleDeleteButton);
 
-  cardImage.addEventListener('click', function(event){
+  cardImage.addEventListener('click', function (event) {
     toggleVisibilityModalWindow(modalWindowImg);
     resizeCard(event.target, item.name);
-  })
+  });
 
   return newCard;
 }
 
 
-  // Увеличение изображения карточки
+// Увеличение изображения карточки
 function resizeCard(item, title) {
   imageTitle.textContent = title;
-  imagePhoto.setAttribute('src' , item.src);
-  imagePhoto.setAttribute('alt' , item.alt);
+  imagePhoto.setAttribute('src', item.src);
+  imagePhoto.setAttribute('alt', item.alt);
 }
 
 
@@ -162,7 +177,7 @@ function handleDeleteButton(event) {
   card.remove();
 };
 
-function handleFormProfileSubmit (evt) {
+function handleFormProfileSubmit(evt) {
   evt.preventDefault();
   myName.textContent = inputNameFormProfile.value;
   aboutSelf.textContent = inputAboutSelfFormProfile.value;
