@@ -64,7 +64,7 @@ formProfile.addEventListener('submit', handleFormProfileSubmit);
 const modalWindowAddNewCard = document.querySelector('.modal__overlay_add');
 const buttonCloseModalWindowAddNewCard = modalWindowAddNewCard.querySelector('.modal__close_add');
 
-addClickEvent(addButton, modalWindowAddNewCard );
+addClickEvent(addButton, modalWindowAddNewCard);
 addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
 
 

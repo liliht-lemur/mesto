@@ -40,48 +40,7 @@
           </div>
         </div>
       </template>
-      <!-- <div class="element">
-        <img src="./images/Karachaevsk.png" alt="Карачаевск" class="element__photo">
-        <div class="element__name">
-          <h2 class="element__title">Карачаевск</h2>
-          <button aria-label="like" class="element__like"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img src="./images/elbrus.png" alt="Гора Эльбрус" class="element__photo">
-        <div class="element__name">
-          <h2 class="element__title">Гора Эльбрус</h2>
-          <button aria-label="like" class="element__like"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img src="./images/Dombay.png" alt="Домбай" class="element__photo">
-        <div class="element__name">
-          <h2 class="element__title">Домбай</h2>
-          <button aria-label="like" class="element__like"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img src="./images/elbrus.png" alt="Гора Эльбрус" class="element__photo">
-        <div class="element__name">
-          <h2 class="element__title">Гора Эльбрус</h2>
-          <button aria-label="like" class="element__like"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img src="./images/Dombay.png" alt="Домбай" class="element__photo">
-        <div class="element__name">
-          <h2 class="element__title">Домбай</h2>
-          <button aria-label="like" class="element__like"></button>
-        </div>
-      </div>
-      <div class="element">
-        <img src="./images/Karachaevsk.png" alt="Карачаево-Черкессия" class="element__photo">
-        <div class="element__name">
-          <h2 class="element__title">Карачаево-Черкессия</h2>
-          <button aria-label="like" class="element__like"></button>
-        </div>
-      </div> -->
+
     </section>
   </main>
   <footer class="footer content">
@@ -92,10 +51,16 @@
       <div class="modal__form">
         <button aria-label="close" class="modal__close cursor"><img src="./images/Close_Icon.svg" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Редактировать профиль</h2>
-        <form class="modal__edit" action="#">
-          <input class="modal__description modal__description_type_name" id="name" name="name" type="text" placeholder="Ваше имя">
-          <input class="modal__description modal__description_type_about-self" id="about-self" name="about-self"
-            type="text" placeholder="Род занятий">
+        <form class="modal__edit" action="#" novalidate>
+          <div>
+            <input id="name-input" class="modal__description modal__description_type_name" name="name" type="text" placeholder="Ваше имя" required minlength="2" maxlength="40">
+            <span class="name-input-error modal__description-error">Текст не должен быть короче 2 симв. Длина текста сейчас: 1 символ.</span>
+          </div>
+          <div>
+            <input id="about-self" class="modal__description modal__description_type_about-self" id="about-self" name="about-self"
+            type="text" placeholder="Род занятий" required minlength="2" maxlength="200">
+            <span class="about-self-error modal__description-error">Текст не должен быть короче 2 симв. Длина текста сейчас: 1 символ.</span>
+          </div>
           <button aria-label="save" class="button button_submit cursor">Сохранить</button>
         </form>
       </div>
@@ -106,10 +71,16 @@
       <div class="modal__form">
         <button aria-label="close" class="modal__close modal__close_add cursor"><img src="./images/Close_Icon.svg" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Новое место</h2>
-        <form class="modal__add" action="#">
-          <input class="modal__description modal__description_type_heading" placeholder="Название" id="heading" name="heading" type="text">
-          <input class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" id="link" name="link"
+        <form class="modal__add" action="#" novalidate>
+          <div>
+            <input id="heading-input" class="modal__description modal__description_type_heading" placeholder="Название" name="heading" type="text">
+            <span class="heading-input-error modal__description-error">Текст не должен быть короче 2 симв. Длина текста сейчас: 1 символ.</span>
+          </div>
+          <div>
+            <input id="link-input" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link"
             type="text">
+            <span class="link-input-error modal__description-error">Текст не должен быть короче 2 симв. Длина текста сейчас: 1 символ.</span> 
+          </div>
           <button aria-label="save" class="button button_submit cursor">Создать</button>
         </form>
       </div>
