@@ -3,7 +3,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 430px;
+  max-width: 430px;
+  width: 100%;
   background-color: #FFFFFF;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
@@ -14,7 +15,13 @@
 
 @media (max-width: 592px) {
   .modal__form {
-    min-width: 282px;
+    max-width: 282px;
     padding: 25px 22px;
+  }
+}
+
+@media (max-width: 320px) {
+  .modal__form {
+    height: 322px;
   }
 }

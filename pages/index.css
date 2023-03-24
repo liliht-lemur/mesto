@@ -29,6 +29,7 @@
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 @import url(../blocks/modal/__close/modal__close.css);
 @import url(../blocks/modal/__image/modal__image.css);
+@import url(../blocks/modal/__input/modal__input.css);
 @import url(../blocks/modal/__description/modal__description.css);
 @import url(../blocks/modal/__description/_type/modal__description_type_error.css);
 @import url(../blocks/modal/__description-error/modal__description-error.css);
