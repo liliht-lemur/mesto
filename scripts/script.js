@@ -38,9 +38,8 @@ const inputAboutSelfFormProfile = modalWindowProfile.querySelector('.modal__desc
 const formProfile = modalWindowProfile.querySelector('.modal__edit');
 
 
-
 const profile = document.querySelector('.profile');
-const myName =  profile.querySelector('.profile__title');
+const myName = profile.querySelector('.profile__title');
 const aboutSelf = profile.querySelector('.profile__subtitle');
 const editButton = profile.querySelector('.button_edit');
 const addButton = profile.querySelector('.button_add');
@@ -51,7 +50,7 @@ const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
 
 // Изменение профиля 
 
-editButton.addEventListener('click', function(){
+editButton.addEventListener('click', function () {
   toggleVisibilityModalWindow(modalWindowProfile);
 
   inputNameFormProfile.value = myName.textContent;
@@ -83,111 +82,35 @@ const imagePhoto = document.querySelector('.modal__photo');
 
 document.addEventListener('keyup', event => {
   if (event.key === 'Escape') {
-   const activeModalWindows = document.querySelector('.modal__overlay_active');
+    const activeModalWindows = document.querySelector('.modal__overlay_active');
 
-   if (activeModalWindows) {
-    toggleVisibilityModalWindow(activeModalWindows, false)
-   }
+    if (activeModalWindows) {
+      toggleVisibilityModalWindow(activeModalWindows, false);
+    }
   }
-})
+});
 
-
-
-// block with validation
-
-
-const showInputError = (formElem, inputElem, errorMessage, inputErrorClass, errorClass) => {
-  const errorElement = formElem.querySelector(`.${inputElem.id}-error`);
-
-  inputElem.classList.add(inputErrorClass);
-  errorElement.classList.add(errorClass);
-  errorElement.textContent = errorMessage;
-}
-
-const hideInputError = (formElem, inputElem, inputErrorClass, errorClass) => {
-  const errorElement = formElem.querySelector(`.${inputElem.id}-error`);
-
-  inputElem.classList.remove(inputErrorClass);
-  errorElement.classList.remove(errorClass);
-  errorElement.textContent = '';
-}
-
-const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  });
-}; 
-
-const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(inactiveButtonClass);
-  } else {
-    buttonElement.classList.remove(inactiveButtonClass);
+document.addEventListener('click', event => {
+  if (event.target.classList.contains('modal__overlay_active')) {
+    toggleVisibilityModalWindow(event.target, false);
   }
-}; 
-
-const isValid = (formElem, inputElem, inputErrorClass, errorClass) => {
-  if (!inputElem.validity.valid) {
-    showInputError(formElem, inputElem, inputElem.validationMessage, inputErrorClass, errorClass);
-  } else {
-    hideInputError(formElem, inputElem, inputErrorClass, errorClass);
-  }
-}
-
-const setEventListeners = (form, inputList, submitButton, config) => {
-  const { inactiveButtonClass, inputErrorClass, errorClass } = config;
-
-  form.addEventListener('submit',(e)=>{
-    e.preventDefault();
-  });
-
-  inputList.forEach(inputElem => inputElem.addEventListener('input', (event)=> {
-    isValid (formElem, inputElem, inputErrorClass, errorClass);
-    toggleButtonState(inputList, submitButton, inactiveButtonClass);
-  })); 
-
-  toggleButtonState(inputList, buttonElem, submitButton);
-}
-
-
-const enableValidation = (configuration) => {
-  const { formsSelector, inputSelector, submitButtonSelector, ...config } = configuration;
-  const formList = document.querySelectorAll(formsSelector);
-
-  formList.forEach(form => {
-    const inputList = form.querySelectorAll(inputSelector);
-    const submitButton = form.querySelectorAll(submitButtonSelector);
-
-    setEventListeners(form, inputList, submitButton, config);
-  })
-}
-
-
-enableValidation({
-  formsSelector: '.forms',
-  inputSelector: '.modal__description',
-  submitButtonSelector: '.button_submit',
-  inactiveButtonClass: 'button_submit-disabled',
-  inputErrorClass: '.modal__description_type_error',
-  errorClass: '.modal__description-error_active'
-}); 
+});
 
 
 // block with old functions
 
-
-function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true ){
+function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true) {
   isNeedOpen ? modalWindow.classList.add('modal__overlay_active') : modalWindow.classList.remove('modal__overlay_active');
 }
 
 function addClickEvent(target, item, isAddEvent = true) {
-  target.addEventListener('click', function(){
+  target.addEventListener('click', function () {
     toggleVisibilityModalWindow(item, isAddEvent);
   });
 }
 
 
-function handleFormAddSubmit (evt) {
+function handleFormAddSubmit(evt) {
   evt.preventDefault();
   const form = evt.target;
   const name = form.querySelector('.modal__description_type_heading').value;
@@ -198,7 +121,7 @@ function handleFormAddSubmit (evt) {
 }
 
 
-function renderCard(cardDetails, isInsertLast=true) {
+function renderCard(cardDetails, isInsertLast = true) {
   const newCard = createCard(cardDetails);
 
   isInsertLast ? elements.append(newCard) : elements.prepend(newCard);
@@ -213,8 +136,8 @@ function createCard(item) {
 
   const cardImage = newCard.querySelector('.element__photo');
 
-  cardImage.setAttribute('src' , item.link);
-  cardImage.setAttribute('alt' , item.name);
+  cardImage.setAttribute('src', item.link);
+  cardImage.setAttribute('alt', item.name);
 
   // Лайк карточки
   const likeButton = newCard.querySelector('.element__like');
@@ -225,20 +148,20 @@ function createCard(item) {
   const deleteButton = newCard.querySelector('.element__delete');
   deleteButton.addEventListener('click', handleDeleteButton);
 
-  cardImage.addEventListener('click', function(event){
+  cardImage.addEventListener('click', function (event) {
     toggleVisibilityModalWindow(modalWindowImg);
     resizeCard(event.target, item.name);
-  })
+  });
 
   return newCard;
 }
 
 
-  // Увеличение изображения карточки
+// Увеличение изображения карточки
 function resizeCard(item, title) {
   imageTitle.textContent = title;
-  imagePhoto.setAttribute('src' , item.src);
-  imagePhoto.setAttribute('alt' , item.alt);
+  imagePhoto.setAttribute('src', item.src);
+  imagePhoto.setAttribute('alt', item.alt);
 }
 
 
@@ -254,7 +177,7 @@ function handleDeleteButton(event) {
   card.remove();
 };
 
-function handleFormProfileSubmit (evt) {
+function handleFormProfileSubmit(evt) {
   evt.preventDefault();
   myName.textContent = inputNameFormProfile.value;
   aboutSelf.textContent = inputAboutSelfFormProfile.value;
