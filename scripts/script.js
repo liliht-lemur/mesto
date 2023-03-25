@@ -48,6 +48,7 @@ const addButton = profile.querySelector('.button_add');
 const modalWindowImg = document.querySelector('.modal__overlay_img');
 const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
 
+
 // Изменение профиля 
 
 editButton.addEventListener('click', function () {
@@ -72,6 +73,10 @@ addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
 
 // close image modal window
 const formAddNewCard = document.querySelector('.modal__add');
+const inputNameFormAddNewCard = formAddNewCard.querySelector('.modal__description_type_heading');
+const inputLinkFormAddNewCard = formAddNewCard.querySelector('.modal__description_type_link');
+const addNewCardButtonSubmit = formAddNewCard.querySelector('.button_submit');
+
 formAddNewCard.addEventListener('submit', handleFormAddSubmit);
 addClickEvent(modalCloseImg, modalWindowImg, false);
 
@@ -80,7 +85,18 @@ const imageTitle = document.querySelector('.modal__title_img');
 const imagePhoto = document.querySelector('.modal__photo');
 
 
-document.addEventListener('keyup', event => {
+
+
+
+
+// block with functions
+function closeByClickOutSideModalWindow(event) {
+  if (event.target.classList.contains('modal__overlay_active')) {
+    toggleVisibilityModalWindow(event.target, false);
+  }
+}
+
+function closeByEscape(event) {
   if (event.key === 'Escape') {
     const activeModalWindows = document.querySelector('.modal__overlay_active');
 
@@ -88,20 +104,25 @@ document.addEventListener('keyup', event => {
       toggleVisibilityModalWindow(activeModalWindows, false);
     }
   }
-});
-
-document.addEventListener('click', event => {
-  if (event.target.classList.contains('modal__overlay_active')) {
-    toggleVisibilityModalWindow(event.target, false);
-  }
-});
-
-
-// block with old functions
+}
 
 function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true) {
-  isNeedOpen ? modalWindow.classList.add('modal__overlay_active') : modalWindow.classList.remove('modal__overlay_active');
+  isNeedOpen 
+  ? addVisibilityModalWindow(modalWindow) : removeVisibilityModalWindow(modalWindow);
 }
+
+function addVisibilityModalWindow(modalWindow) {
+  modalWindow.classList.add('modal__overlay_active');
+  document.addEventListener('keyup', closeByEscape);
+  document.addEventListener('click', closeByClickOutSideModalWindow);
+}
+
+function removeVisibilityModalWindow(modalWindow) {
+  modalWindow.classList.remove('modal__overlay_active');
+  document.removeEventListener('keyup', closeByEscape);
+  document.removeEventListener('click', closeByClickOutSideModalWindow);
+}
+
 
 function addClickEvent(target, item, isAddEvent = true) {
   target.addEventListener('click', function () {
@@ -112,12 +133,17 @@ function addClickEvent(target, item, isAddEvent = true) {
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  const form = evt.target;
-  const name = form.querySelector('.modal__description_type_heading').value;
-  const link = form.querySelector('.modal__description_type_link').value;
-  const card = {name, link};
+
+  const name = inputNameFormAddNewCard.value;
+  const link = inputLinkFormAddNewCard.value;
+  const card = { name, link };
+
   renderCard(card, false);
   toggleVisibilityModalWindow(modalWindowAddNewCard, false);
+  
+  addNewCardButtonSubmit.setAttribute('disabled', true);
+  addNewCardButtonSubmit.classList.add('button_submit-disabled');
+  evt.target.reset()
 }
 
 
@@ -125,11 +151,11 @@ function renderCard(cardDetails, isInsertLast = true) {
   const newCard = createCard(cardDetails);
 
   isInsertLast ? elements.append(newCard) : elements.prepend(newCard);
-}
+} 
 
 
 function createCard(item) {
-  const newCard = template.content.firstElementChild.cloneNode(true);
+  const newCard = template.content.querySelector('.element').cloneNode(true);
   const cardTitle = newCard.querySelector('.element__title');
 
   cardTitle.textContent = item.name;
