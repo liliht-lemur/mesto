@@ -1,10 +1,10 @@
 export class Card {
-  constructor(title, link, templateSelector, modalWindowImg, modalWindowAction) {
+  constructor(title, link, templateSelector, modalWindowImg, toggleVisibilityModalWindow) {
     this._title = title;
     this._link = link;
     this._templateSelector = templateSelector;
     this._modalWindowImg = modalWindowImg;
-    this._modalWindowAction = modalWindowAction;
+    this._toggleVisibilityModalWindow = toggleVisibilityModalWindow;
 
     this._imageTitle = document.querySelector('.modal__title_img');
     this._imagePhoto = document.querySelector('.modal__photo');
@@ -42,7 +42,7 @@ export class Card {
     deleteButton.addEventListener('click', this._handleDeleteButton);
   
     cardImage.addEventListener('click', (event) => {
-      this._modalWindowAction.toggleVisibilityModalWindow(this._modalWindowImg);
+      this._toggleVisibilityModalWindow(this._modalWindowImg);
       this._resizeCard(event.target);
     });
   
