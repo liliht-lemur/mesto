@@ -12,10 +12,10 @@ export class FormValidator {
     this._submitButton = this._form.querySelector(this._submitButtonSelector)
   }
 
-  // disableSubmitButton(target) {
-  //   addNewCardButtonSubmit.setAttribute('disabled', true);
-  //   addNewCardButtonSubmit.classList.add('button_submit-disabled');
-  // }
+  disableSubmitButton(target) {
+    target.setAttribute('disabled', true);
+    target.classList.add('button_submit-disabled');
+  }
 
   _showInputError(inputElem, errorMessage) {
     const errorElement = this._form.querySelector(`.${inputElem.id}-error`);

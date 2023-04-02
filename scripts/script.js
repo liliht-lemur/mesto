@@ -6,14 +6,7 @@ import { initialCardsDetails } from './constants.js';
   const formList = document.querySelectorAll('.forms');
 
   formList.forEach(form => {
-    const formValidator = new FormValidator({
-      inputSelector: '.modal__description',
-      submitButtonSelector: '.button_submit',
-      inactiveButtonClass: 'button_submit-disabled',
-      inputErrorClass: 'modal__description_type_error',
-      errorClass: 'modal__description-error_active'
-    }, form
-    );
+    const formValidator = createFormValidator(form);
     formValidator.enableValidation();
   });
 
@@ -78,6 +71,17 @@ import { initialCardsDetails } from './constants.js';
     }
   }
 
+  function createFormValidator(form) {
+    return new FormValidator({
+      inputSelector: '.modal__description',
+      submitButtonSelector: '.button_submit',
+      inactiveButtonClass: 'button_submit-disabled',
+      inputErrorClass: 'modal__description_type_error',
+      errorClass: 'modal__description-error_active'
+    }, form
+    );
+  }
+
   function createCard(name, link) {
     const card = new Card(name, link, '#cardTemplate', modalWindowImg, addVisibilityModalWindow);
     return card.createCard();
@@ -121,8 +125,8 @@ import { initialCardsDetails } from './constants.js';
     renderCard(newCard, false);
     removeVisibilityModalWindow(modalWindowAddNewCard);
 
-    addNewCardButtonSubmit.setAttribute('disabled', true);
-    addNewCardButtonSubmit.classList.add('button_submit-disabled');
+    const formValidator = createFormValidator(formList[0]); 
+    formValidator.disableSubmitButton(addNewCardButtonSubmit);
     evt.target.reset()
   }
 
