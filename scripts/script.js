@@ -1,9 +1,7 @@
 import { FormValidator } from './FormValidator.js'
 import { Card } from './Card.js'
-import { ModalWindowAction } from './ModalWindowAction.js'
 
 (() => {
-  const modalWindowAction = new ModalWindowAction();
   const formList = document.querySelectorAll('.forms');
 
   formList.forEach(form => {
@@ -63,7 +61,7 @@ import { ModalWindowAction } from './ModalWindowAction.js'
 
   initialCardsDetails.forEach(cardDetails => {
     const { name, link } = cardDetails;
-    const card = new Card(name, link, '#cardTemplate', modalWindowImg, modalWindowAction);
+    const card = new Card(name, link, '#cardTemplate', modalWindowImg, toggleVisibilityModalWindow);
     card.renderCard();
   });
 
@@ -73,13 +71,13 @@ import { ModalWindowAction } from './ModalWindowAction.js'
   // Изменение профиля 
 
   editButton.addEventListener('click', function () {
-    modalWindowAction.toggleVisibilityModalWindow(modalWindowProfile);
+    toggleVisibilityModalWindow(modalWindowProfile);
 
     inputNameFormProfile.value = myName.textContent;
     inputAboutSelfFormProfile.value = aboutSelf.textContent;
   });
 
-  modalWindowAction.addClickEvent(buttonCloseModalWindowProfile, modalWindowProfile, false);
+  addClickEvent(buttonCloseModalWindowProfile, modalWindowProfile, false);
 
   formProfile.addEventListener('submit', handleFormProfileSubmit);
 
@@ -88,8 +86,8 @@ import { ModalWindowAction } from './ModalWindowAction.js'
   const modalWindowAddNewCard = document.querySelector('.modal__overlay_add');
   const buttonCloseModalWindowAddNewCard = modalWindowAddNewCard.querySelector('.modal__close_add');
 
-  modalWindowAction.addClickEvent(addButton, modalWindowAddNewCard);
-  modalWindowAction.addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
+  addClickEvent(addButton, modalWindowAddNewCard);
+  addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
 
 
   // close image modal window
@@ -99,7 +97,48 @@ import { ModalWindowAction } from './ModalWindowAction.js'
   const addNewCardButtonSubmit = formAddNewCard.querySelector('.button_submit');
 
   formAddNewCard.addEventListener('submit', handleFormAddSubmit);
-  modalWindowAction.addClickEvent(modalCloseImg, modalWindowImg, false);
+  addClickEvent(modalCloseImg, modalWindowImg, false);
+
+  // block with functions
+  function closeByClickOutSideModalWindow(event) {
+    if (event.target.classList.contains('modal__overlay_active')) {
+      toggleVisibilityModalWindow(event.target, false);
+    }
+  }
+  
+  function closeByEscape(event) {
+    if (event.key === 'Escape') {
+      const activeModalWindows = document.querySelector('.modal__overlay_active');
+  
+      if (activeModalWindows) {
+        toggleVisibilityModalWindow(activeModalWindows, false);
+      }
+    }
+  }
+  
+  function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true) {
+    isNeedOpen 
+    ? addVisibilityModalWindow(modalWindow) : removeVisibilityModalWindow(modalWindow);
+  }
+
+  function addVisibilityModalWindow(modalWindow) {
+    modalWindow.classList.add('modal__overlay_active');
+    document.addEventListener('keyup', closeByEscape);
+    document.addEventListener('click', closeByClickOutSideModalWindow);
+  }
+  
+  function removeVisibilityModalWindow(modalWindow) {
+    modalWindow.classList.remove('modal__overlay_active');
+    document.removeEventListener('keyup', closeByEscape);
+    document.removeEventListener('click', closeByClickOutSideModalWindow);
+  }
+  
+  
+  function addClickEvent(target, item, isAddEvent = true) {
+    target.addEventListener('click', function () {
+      toggleVisibilityModalWindow(item, isAddEvent);
+    });
+  }
 
 
   function handleFormAddSubmit(evt) {
@@ -110,7 +149,7 @@ import { ModalWindowAction } from './ModalWindowAction.js'
     const card = new Card(name, link, '#cardTemplate', modalWindowImg, modalWindowAction);
 
     card.renderCard(false);
-    modalWindowAction.toggleVisibilityModalWindow(modalWindowAddNewCard, false);
+    toggleVisibilityModalWindow(modalWindowAddNewCard, false);
 
     addNewCardButtonSubmit.setAttribute('disabled', true);
     addNewCardButtonSubmit.classList.add('button_submit-disabled');
@@ -121,6 +160,6 @@ import { ModalWindowAction } from './ModalWindowAction.js'
     evt.preventDefault();
     myName.textContent = inputNameFormProfile.value;
     aboutSelf.textContent = inputAboutSelfFormProfile.value;
-    modalWindowAction.toggleVisibilityModalWindow(modalWindowProfile, false);
+    toggleVisibilityModalWindow(modalWindowProfile, false);
   }
 })();
