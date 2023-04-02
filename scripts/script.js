@@ -1,5 +1,6 @@
-import { FormValidator } from './FormValidator.js'
-import { Card } from './Card.js'
+import { FormValidator } from './FormValidator.js';
+import { Card } from './Card.js';
+import { initialCardsDetails } from './constants.js';
 
 (() => {
   const formList = document.querySelectorAll('.forms');
@@ -16,34 +17,6 @@ import { Card } from './Card.js'
     formValidator.enableValidation();
   });
 
-
-  const initialCardsDetails = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ];
-
   const modalWindowImg = document.querySelector('.modal__overlay_img');
   const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
 
@@ -59,19 +32,19 @@ import { Card } from './Card.js'
   const editButton = profile.querySelector('.button_edit');
   const addButton = profile.querySelector('.button_add');
 
+  const elements = document.querySelector('.elements');
+
   initialCardsDetails.forEach(cardDetails => {
     const { name, link } = cardDetails;
-    const card = new Card(name, link, '#cardTemplate', modalWindowImg, toggleVisibilityModalWindow);
-    card.renderCard();
+    const newCard = createCard(name, link);
+    
+    renderCard(newCard);
   });
-
-
-
 
   // Изменение профиля 
 
   editButton.addEventListener('click', function () {
-    toggleVisibilityModalWindow(modalWindowProfile);
+    addVisibilityModalWindow(modalWindowProfile);
 
     inputNameFormProfile.value = myName.textContent;
     inputAboutSelfFormProfile.value = aboutSelf.textContent;
@@ -89,7 +62,6 @@ import { Card } from './Card.js'
   addClickEvent(addButton, modalWindowAddNewCard);
   addClickEvent(buttonCloseModalWindowAddNewCard, modalWindowAddNewCard, false);
 
-
   // close image modal window
   const formAddNewCard = document.querySelector('.modal__add');
   const inputNameFormAddNewCard = formAddNewCard.querySelector('.modal__description_type_heading');
@@ -102,23 +74,23 @@ import { Card } from './Card.js'
   // block with functions
   function closeByClickOutSideModalWindow(event) {
     if (event.target.classList.contains('modal__overlay_active')) {
-      toggleVisibilityModalWindow(event.target, false);
+      removeVisibilityModalWindow(event.target);
     }
   }
-  
+
+  function createCard(name, link) {
+    const card = new Card(name, link, '#cardTemplate', modalWindowImg, addVisibilityModalWindow);
+    return card.createCard();
+  }
+
   function closeByEscape(event) {
     if (event.key === 'Escape') {
       const activeModalWindows = document.querySelector('.modal__overlay_active');
-  
+
       if (activeModalWindows) {
-        toggleVisibilityModalWindow(activeModalWindows, false);
+        removeVisibilityModalWindow(activeModalWindows);
       }
     }
-  }
-  
-  function toggleVisibilityModalWindow(modalWindow, isNeedOpen = true) {
-    isNeedOpen 
-    ? addVisibilityModalWindow(modalWindow) : removeVisibilityModalWindow(modalWindow);
   }
 
   function addVisibilityModalWindow(modalWindow) {
@@ -126,30 +98,28 @@ import { Card } from './Card.js'
     document.addEventListener('keyup', closeByEscape);
     document.addEventListener('click', closeByClickOutSideModalWindow);
   }
-  
+
   function removeVisibilityModalWindow(modalWindow) {
     modalWindow.classList.remove('modal__overlay_active');
     document.removeEventListener('keyup', closeByEscape);
     document.removeEventListener('click', closeByClickOutSideModalWindow);
   }
-  
-  
+
   function addClickEvent(target, item, isAddEvent = true) {
     target.addEventListener('click', function () {
-      toggleVisibilityModalWindow(item, isAddEvent);
+      isAddEvent ? addVisibilityModalWindow(item) : removeVisibilityModalWindow(item);
     });
   }
-
 
   function handleFormAddSubmit(evt) {
     evt.preventDefault();
 
     const name = inputNameFormAddNewCard.value;
     const link = inputLinkFormAddNewCard.value;
-    const card = new Card(name, link, '#cardTemplate', modalWindowImg, modalWindowAction);
-
-    card.renderCard(false);
-    toggleVisibilityModalWindow(modalWindowAddNewCard, false);
+    const newCard = createCard(name, link);
+    
+    renderCard(newCard, false);
+    removeVisibilityModalWindow(modalWindowAddNewCard);
 
     addNewCardButtonSubmit.setAttribute('disabled', true);
     addNewCardButtonSubmit.classList.add('button_submit-disabled');
@@ -160,6 +130,10 @@ import { Card } from './Card.js'
     evt.preventDefault();
     myName.textContent = inputNameFormProfile.value;
     aboutSelf.textContent = inputAboutSelfFormProfile.value;
-    toggleVisibilityModalWindow(modalWindowProfile, false);
+    removeVisibilityModalWindow(modalWindowProfile);
+  }
+
+  function renderCard(newCard, isInsertLast = true) {
+    isInsertLast ? elements.append(newCard) : elements.prepend(newCard);
   }
 })();
