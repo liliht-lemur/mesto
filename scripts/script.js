@@ -5,9 +5,10 @@ import { initialCardsDetails } from './constants.js';
 (() => {
   const formList = document.querySelectorAll('.forms');
 
-  formList.forEach(form => {
+  const formValidatorsList = Array.from(formList).map(form => {
     const formValidator = createFormValidator(form);
     formValidator.enableValidation();
+    return formValidator;
   });
 
   const modalWindowImg = document.querySelector('.modal__overlay_img');
@@ -125,8 +126,7 @@ import { initialCardsDetails } from './constants.js';
     renderCard(newCard, false);
     removeVisibilityModalWindow(modalWindowAddNewCard);
 
-    const formValidator = createFormValidator(formList[0]); 
-    formValidator.disableSubmitButton(addNewCardButtonSubmit);
+    formValidatorsList[1].disableSubmitButton(addNewCardButtonSubmit);
     evt.target.reset()
   }
 

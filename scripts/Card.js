@@ -31,17 +31,7 @@ export class Card {
     cardImage.setAttribute('src', this._link);
     cardImage.setAttribute('alt',  this._title);
   
-    // Лайк карточки
-    const likeButton = newCard.querySelector('.element__like');
-    this._setEventListeners(likeButton, this._likeTheCard);
-  
-    // Удаление карточки
-    const deleteButton = newCard.querySelector('.element__delete');
-    this._setEventListeners(deleteButton, this._handleDeleteButton);
-
-    this._setEventListeners(cardImage, (event)=> {
-      this._handlerResizeCard(event)
-    });
+    this._setEventListeners(newCard, cardImage);
 
     return newCard;
   }
@@ -51,8 +41,15 @@ export class Card {
     this._resizeCard(event.target);
   }
 
-  _setEventListeners(target, handler) {
-    target.addEventListener('click', handler);
+  _setEventListeners(newCard, cardImage) {
+    const likeButton = newCard.querySelector('.element__like');
+    const deleteButton = newCard.querySelector('.element__delete');
+
+    likeButton.addEventListener('click', this._likeTheCard);
+    deleteButton.addEventListener('click', this._handleDeleteButton);
+    cardImage.addEventListener('click',(event)=> {
+      this._handlerResizeCard(event)
+    });
   }
 
   _resizeCard(item) {
