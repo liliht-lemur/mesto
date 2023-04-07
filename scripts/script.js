@@ -1,5 +1,6 @@
 import { FormValidator } from './FormValidator.js';
 import { Card } from './Card.js';
+import { Section } from './Section.js';
 import { initialCardsDetails } from './constants.js';
 
 (() => {
@@ -11,8 +12,48 @@ import { initialCardsDetails } from './constants.js';
     return formValidator;
   });
 
+  const elementsSectionSelector = '.elements';
   const modalWindowImg = document.querySelector('.modal__overlay_img');
   const modalCloseImg = modalWindowImg.querySelector('.modal__close_img');
+
+  const section = new Section({
+    itemsList: initialCardsDetails, 
+    renderer: (cardDetails, pointMount) => {
+      const { name, link } = cardDetails;
+      const newCard = createCard(name, link);
+      renderCard(newCard, pointMount);
+    }
+  }, elementsSectionSelector);
+
+  section.renderCards();
+
+  // functions block
+
+  function createCard(name, link) {
+    const card = new Card(name, link, '#cardTemplate', modalWindowImg, addVisibilityModalWindow);
+    return card.createCard();
+  }
+
+  function renderCard(newCard, pointMount) {
+    pointMount.append(newCard);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const modalWindowProfile = document.querySelector('.modal__overlay');
   const buttonCloseModalWindowProfile = modalWindowProfile.querySelector('.modal__close');
@@ -26,14 +67,15 @@ import { initialCardsDetails } from './constants.js';
   const editButton = profile.querySelector('.button_edit');
   const addButton = profile.querySelector('.button_add');
 
-  const elements = document.querySelector('.elements');
 
-  initialCardsDetails.forEach(cardDetails => {
-    const { name, link } = cardDetails;
-    const newCard = createCard(name, link);
+  // initialCardsDetails.forEach(cardDetails => {
+  //   const { name, link } = cardDetails;
+  //   const newCard = createCard(name, link);
     
-    renderCard(newCard);
-  });
+  //   renderCard(newCard);
+  // });
+
+
 
   // Изменение профиля 
 
@@ -83,10 +125,7 @@ import { initialCardsDetails } from './constants.js';
     );
   }
 
-  function createCard(name, link) {
-    const card = new Card(name, link, '#cardTemplate', modalWindowImg, addVisibilityModalWindow);
-    return card.createCard();
-  }
+
 
   function closeByEscape(event) {
     if (event.key === 'Escape') {
@@ -137,7 +176,5 @@ import { initialCardsDetails } from './constants.js';
     removeVisibilityModalWindow(modalWindowProfile);
   }
 
-  function renderCard(newCard, isInsertLast = true) {
-    isInsertLast ? elements.append(newCard) : elements.prepend(newCard);
-  }
+
 })();
