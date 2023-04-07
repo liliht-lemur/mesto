@@ -1,7 +1,7 @@
 export class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
-
+    this._modalClose = this._popup.querySelector('.modal__close');
   }
 
   open() {
@@ -12,6 +12,8 @@ export class Popup {
     document.addEventListener('click', (event) => {
       this._closeByClickOutSideModalWindow(event);
     });
+
+    this.setEventListeners();
   }
 
   close() {
@@ -24,8 +26,10 @@ export class Popup {
     });
   }
 
-  addClickEvent(iconByClosePopup) {
-    iconByClosePopup.addEventListener('click', close);
+  setEventListeners() {
+    this._modalClose.addEventListener('click', () => {
+      this.close();
+    });
   }
 
   _handleEscClose(event) {
@@ -43,34 +47,4 @@ export class Popup {
       this.close();
     }
   }
-
-
-  // toggleVisibilityModalWindow(modalWindow, isNeedOpen = true) {
-  //   isNeedOpen 
-  //   ? this._addVisibilityModalWindow(modalWindow) : this._removeVisibilityModalWindow(modalWindow);
-  // }
-
-
-
-  // _addVisibilityModalWindow(modalWindow) {
-  //   modalWindow.classList.add('modal__overlay_active');
-  //   document.addEventListener('keyup', (event) => {
-  //     this._closeByEscape(event);
-  //   });
-  //   document.addEventListener('click', (event) => {
-  //     this._closeByClickOutSideModalWindow(event);
-  //   });
-  // }
-
-  // _removeVisibilityModalWindow(modalWindow) {
-  //   modalWindow.classList.remove('modal__overlay_active');
-  //   document.removeEventListener('keyup', (event) => {
-  //     this._closeByEscape(event);
-  //   });
-  //   document.removeEventListener('click', (event) => {
-  //     this._closeByClickOutSideModalWindow(event);
-  //   });
-  // }
-
-
 }

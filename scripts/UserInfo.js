@@ -1,16 +1,22 @@
 export class UserInfo {
   constructor ({ userNameSelector, userInfoSelector}) {
-    this.userNameElem = document.querySelector(userNameSelector);
-    this.userInfoElem = document.querySelector(userInfoSelector);
+    this._userNameElem = document.querySelector(userNameSelector);
+    this._userInfoElem = document.querySelector(userInfoSelector);
 
-    this.userName = this.userNameElem.textContent;
-    this.userInfo = this.userInfoElem.textContent;
+    this._userName = this._userNameElem.textContent;
+    this._userInfo = this._userInfoElem.textContent;
+
+    // this._modalWindowProfile = document.querySelector('.modal__overlay_profile');
+    // this._userNameInput = '.modal__description_type_name';
+    // this._userInfoInput = '.modal__description_type_about-self';
+    // this._inputNameFormProfile = this._modalWindowProfile.querySelector(this._userNameInput);
+    // this._inputAboutSelfFormProfile = this._modalWindowProfile.querySelector(this._userInfoInput);
   }
   
   getUserInfo () {
     return {
-      userName: this.userName,
-      userInfo: this.userInfo,
+      userName: this._userName,
+      userInfo: this._userInfo,
     }
   }
 
@@ -18,7 +24,7 @@ export class UserInfo {
     this.userName = userName;
     this.userInfo = userInfo;
 
-    this.userNameElem.textContent = this.userName;
-    this.userInfoElem.textContent = this.userInfo;
+    this.userNameElem.textContent = this._inputNameFormProfile.value;
+    this.userInfoElem.textContent = this._inputAboutSelfFormProfile.value;
   }
 }
