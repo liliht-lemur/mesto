@@ -6,27 +6,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto Russia</title>
-  <link rel="stylesheet" href="./pages/index.css">
+  <!-- <link rel="stylesheet" href="./css/pages/index.css"> -->
 </head>
 
 <body class="root">
   <header class="header content">
-    <img src="./images/logo.svg" alt="Лого" class="header__logo">
+    <img src="<%=require('./images/logo.svg')%>" alt="Лого" class="header__logo">
+    <!-- <img src="./images/logo.svg" alt="Лого" class="header__logo"> -->
   </header>
   <main>
     <section class="profile content">
       <div class="profile__list">
-        <img src="./images/Kusto.jpg" alt="Аватар" class="profile__image">
+        <!-- <img src="./images/Kusto.jpg" alt="Аватар" class="profile__image"> -->
+        <img src="<%=require('./images/Kusto.jpg')%>" alt="Аватар" class="profile__image">
         <div class="profile__description">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <p class="profile__subtitle">Исследователь океана</p>
           <button aria-label="edit" class="button button_edit cursor">
-            <img src="./images/Vector.svg" alt="Изменить" class="button__image button__image_edit">
+            <img src="<%=require('./images/Vector.svg')%>" alt="Изменить" class="button__image button__image_edit">
           </button>
         </div>
       </div>
       <button aria-label="add" class="button button_add cursor">
-        <img src="./images/Plus.svg" alt="Добавить" class="button__image button__image_add">
+        <img src="<%=require('./images/Plus.svg')%>" alt="Добавить" class="button__image button__image_add">
       </button>
     </section>
     <section class="elements content" aria-label="Фото">
@@ -49,7 +51,7 @@
   <aside class="modal">
     <div class="modal__overlay modal__overlay_profile">
       <div class="modal__form">
-        <button aria-label="close" class="modal__close cursor"><img src="./images/Close_Icon.svg" alt="Закрыть" class="modal__image"></button>
+        <button aria-label="close" class="modal__close cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Редактировать профиль</h2>
         <form class="modal__edit forms" action="#" novalidate>
           <div class="modal__input">
@@ -69,7 +71,7 @@
   <aside class="modal">
     <div class="modal__overlay modal__overlay_add">
       <div class="modal__form">
-        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="./images/Close_Icon.svg" alt="Закрыть" class="modal__image"></button>
+        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Новое место</h2>
         <form class="modal__add forms" action="#" novalidate>
           <div class="modal__input">
@@ -89,20 +91,11 @@
   <aside class="modal">
     <div class="modal__overlay modal__overlay_img">
       <div class="modal__form modal__form_img">
-        <button aria-label="close" class="modal__close modal__close_img cursor"><img src="./images/Close_Icon.svg" alt="Закрыть" class="modal__image"></button>
+        <button aria-label="close" class="modal__close modal__close_img cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <img src="#" alt="#" class="modal__photo">
         <h6 class="modal__title modal__title_img"></h6>
       </div>
     </div>
   </aside>
-  <script type = "module" src="./scripts/Section.js"></script>
-  <script type = "module" src="./scripts/UserInfo.js"></script>
-  <script type = "module" src="./scripts/Popup.js"></script>
-  <script type = "module" src="./scripts/PopupWithImage.js"></script>
-  <script type = "module" src="./scripts/PopupWithForm.js"></script>
-  <script type = "module" src="./scripts/Card.js"></script>
-  <script type = "module" src="./scripts/FormValidator.js"></script>
-  <script type = "module" src="./scripts/constants.js"></script>
-  <script type = "module" src="./scripts/script.js"></script>
-</body> 
+</body>
 </html>

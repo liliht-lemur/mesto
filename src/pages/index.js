@@ -1,10 +1,11 @@
-import { FormValidator } from './FormValidator.js';
-import { Card } from './Card.js';
-import { Section } from './Section.js';
-import { initialCardsDetails } from './constants.js';
-import { PopupWithForm } from './PopupWithForm.js';
-import { UserInfo } from './UserInfo.js';
-import { PopupWithImage } from './PopupWithImage.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { Card } from '../components/Card.js';
+import { Section } from '../components/Section.js';
+import { initialCardsDetails } from '../components/constants.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { UserInfo } from '../components/UserInfo.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import './index.css';
 
 (() => {
   const formList = document.querySelectorAll('.forms');
@@ -17,9 +18,17 @@ import { PopupWithImage } from './PopupWithImage.js';
 
   const elementsSectionSelector = '.elements';
   const modalWindowImgSelector = '.modal__overlay_img';
+  const modalWindowAddNewCardSelector = '.modal__overlay_add';
+  const modalWindowProfileSelector = '.modal__overlay_profile';
+  const userNameSelector = '.profile__title';
+  const userInfoSelector = '.profile__subtitle';
 
-
+  // Create classes section
   const popupWithImage = new PopupWithImage(modalWindowImgSelector);
+  const cardCreatePopup = new PopupWithForm(modalWindowAddNewCardSelector, handleFormAddSubmit);
+  const profileEditPopup = new PopupWithForm(modalWindowProfileSelector, handleFormProfileSubmit);
+  const userCard = new UserInfo({ userNameSelector, userInfoSelector });
+
   const section = new Section({
     cardDetailsList: initialCardsDetails,
     renderer: (cardDetails, pointMount) => {
@@ -29,13 +38,14 @@ import { PopupWithImage } from './PopupWithImage.js';
     }
   }, elementsSectionSelector);
 
+  popupWithImage.setEventListeners();
+  cardCreatePopup.setEventListeners();
+  profileEditPopup.setEventListeners();
   section.renderCards();
 
-
   // Изменение профиля 
-  const modalWindowProfileSelector = '.modal__overlay_profile';
-  const userNameSelector = '.profile__title';
-  const userInfoSelector = '.profile__subtitle';
+
+
   const userNameInput = '.modal__description_type_name';
   const userInfoInput = '.modal__description_type_about-self';
 
@@ -46,26 +56,16 @@ import { PopupWithImage } from './PopupWithImage.js';
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
 
   editButton.addEventListener('click', function () {
-    const userCard = new UserInfo({ userNameSelector, userInfoSelector });
-
     const { userName, userInfo } = userCard.getUserInfo();
 
     inputNameFormProfile.value = userName;
     inputAboutSelfFormProfile.value = userInfo;
 
-    const handleFormProfileSubmit = (inputValuesList) => {
-      const [name, info] = inputValuesList;
-      userCard.setUserInfo(name, info);
-    }
-
-    const profileEditPopup = new PopupWithForm(modalWindowProfileSelector, handleFormProfileSubmit);
-
     profileEditPopup.open();
   });
 
-
   // Форма добавления карточки
-  const modalWindowAddNewCardSelector = '.modal__overlay_add';
+
   const formAddNewCardSelector = '.modal__add';
 
   const addButton = document.querySelector('.button_add');
@@ -73,12 +73,15 @@ import { PopupWithImage } from './PopupWithImage.js';
   const addNewCardButtonSubmit = formAddNewCard.querySelector('.button_submit');
 
   addButton.addEventListener('click', () => {
-    const cardCreatePopup = new PopupWithForm(modalWindowAddNewCardSelector, handleFormAddSubmit);
-
     cardCreatePopup.open();
   })
 
   // functions block
+
+  function handleFormProfileSubmit(inputValuesList) {
+    const [name, info] = inputValuesList;
+    userCard.setUserInfo(name, info);
+  }
 
   function createCard(name, link) {
     const card = new Card(name, link, '#cardTemplate', handleCardClick);
@@ -114,3 +117,4 @@ import { PopupWithImage } from './PopupWithImage.js';
   }
 
 })();
+

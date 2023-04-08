@@ -12,8 +12,6 @@ export class Popup {
     document.addEventListener('click', (event) => {
       this._closeByClickOutSideModalWindow(event);
     });
-
-    this.setEventListeners();
   }
 
   close() {
