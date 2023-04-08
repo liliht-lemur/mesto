@@ -1,13 +1,9 @@
 export class Card {
-  constructor(title, link, templateSelector, modalWindowImg, addVisibilityModalWindow) {
+  constructor(title, link, templateSelector, handleCardClick) {
     this._title = title;
     this._link = link;
     this._templateSelector = templateSelector;
-    this._modalWindowImg = modalWindowImg;
-    this._addVisibilityModalWindow = addVisibilityModalWindow;
-
-    this._imageTitle = document.querySelector('.modal__title_img');
-    this._imagePhoto = document.querySelector('.modal__photo');
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -23,22 +19,15 @@ export class Card {
   createCard() {
     const newCard = this._getTemplate();
     const cardTitle = newCard.querySelector('.element__title');
-  
-    cardTitle.textContent =  this._title;
-  
     const cardImage = newCard.querySelector('.element__photo');
-  
+
+    cardTitle.textContent = this._title;
     cardImage.setAttribute('src', this._link);
-    cardImage.setAttribute('alt',  this._title);
-  
+    cardImage.setAttribute('alt', this._title);
+
     this._setEventListeners(newCard, cardImage);
 
     return newCard;
-  }
-
-  _handlerResizeCard(event) {
-    this._addVisibilityModalWindow(this._modalWindowImg);
-    this._resizeCard(event.target);
   }
 
   _setEventListeners(newCard, cardImage) {
@@ -47,15 +36,10 @@ export class Card {
 
     likeButton.addEventListener('click', this._likeTheCard);
     deleteButton.addEventListener('click', this._handleDeleteButton);
-    cardImage.addEventListener('click',(event)=> {
-      this._handlerResizeCard(event)
-    });
-  }
 
-  _resizeCard(item) {
-    this._imageTitle.textContent = this._title;
-    this._imagePhoto.setAttribute('src', item.src);
-    this._imagePhoto.setAttribute('alt', item.alt);
+    cardImage.addEventListener('click', (event) => {
+      this._handleCardClick(event.target);
+    });
   }
 
   _likeTheCard(event) {
