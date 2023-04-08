@@ -4,6 +4,7 @@ import { Section } from './Section.js';
 import { initialCardsDetails } from './constants.js';
 import { PopupWithForm } from './PopupWithForm.js';
 import { UserInfo } from './UserInfo.js';
+import { PopupWithImage } from './PopupWithImage.js';
 
 (() => {
   const formList = document.querySelectorAll('.forms');
@@ -17,6 +18,8 @@ import { UserInfo } from './UserInfo.js';
   const elementsSectionSelector = '.elements';
   const modalWindowImgSelector = '.modal__overlay_img';
 
+
+  const popupWithImage = new PopupWithImage(modalWindowImgSelector);
   const section = new Section({
     cardDetailsList: initialCardsDetails,
     renderer: (cardDetails, pointMount) => {
@@ -75,11 +78,10 @@ import { UserInfo } from './UserInfo.js';
     cardCreatePopup.open();
   })
 
-
   // functions block
 
   function createCard(name, link) {
-    const card = new Card(name, link, '#cardTemplate', modalWindowImgSelector);
+    const card = new Card(name, link, '#cardTemplate', handleCardClick);
     return card.createCard();
   }
 
@@ -87,6 +89,9 @@ import { UserInfo } from './UserInfo.js';
     pointMount.append(newCard);
   }
 
+  function handleCardClick(element) {
+    popupWithImage.open(element);
+  }
 
   function createFormValidator(form) {
     return new FormValidator({

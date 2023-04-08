@@ -1,12 +1,9 @@
-import { PopupWithImage } from "./PopupWithImage.js";
-
 export class Card {
-  constructor(title, link, templateSelector, modalWindowImgSelector) {
+  constructor(title, link, templateSelector, handleCardClick) {
     this._title = title;
     this._link = link;
     this._templateSelector = templateSelector;
-
-    this._popupWithImage = new PopupWithImage(modalWindowImgSelector); 
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -41,7 +38,7 @@ export class Card {
     deleteButton.addEventListener('click', this._handleDeleteButton);
 
     cardImage.addEventListener('click',(event)=> {
-      this._popupWithImage.open(event.target);
+      this._handleCardClick(event.target);
     });
   }
 
