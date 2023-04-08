@@ -4,6 +4,7 @@ export class FormValidator {
     this._inputSelector = options.inputSelector;
     this._submitButtonSelector = options.submitButtonSelector;
     this._inactiveButtonClass = options.inactiveButtonClass;
+
     this._inputErrorClass = options.inputErrorClass;
     this._errorClass = options.errorClass;
     this._removeVisibilityModalWindow = removeVisibilityModalWindow;
@@ -12,9 +13,9 @@ export class FormValidator {
     this._submitButton = this._form.querySelector(this._submitButtonSelector)
   }
 
-  disableSubmitButton(target) {
-    target.setAttribute('disabled', true);
-    target.classList.add('button_submit-disabled');
+  disableSubmitButton() {
+    this._submitButton.setAttribute('disabled', true);
+    this._submitButton.classList.add(this._inactiveButtonClass);
   }
 
   _showInputError(inputElem, errorMessage) {
