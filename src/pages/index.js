@@ -1,10 +1,11 @@
 import { FormValidator } from '../components/FormValidator.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
-import { initialCardsDetails } from '../components/constants.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
+
+import { initialCardsDetails } from '../utils/constants.js';
 import './index.css';
 
 (() => {
@@ -92,8 +93,8 @@ import './index.css';
     pointMount.append(newCard);
   }
 
-  function handleCardClick(element) {
-    popupWithImage.open(element);
+  function handleCardClick(event) {
+    popupWithImage.open(event.target);
   }
 
   function createFormValidator(form) {

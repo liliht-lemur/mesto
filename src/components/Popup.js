@@ -2,26 +2,21 @@ export class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
     this._modalClose = this._popup.querySelector('.modal__close');
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._closeByClickOutSideModalWindow = this._closeByClickOutSideModalWindow.bind(this);
   }
 
   open() {
     this._popup.classList.add('modal__overlay_active');
-    document.addEventListener('keyup', (event) => {
-      this._handleEscClose(event);
-    });
-    document.addEventListener('click', (event) => {
-      this._closeByClickOutSideModalWindow(event);
-    });
+    document.addEventListener('keyup', this._handleEscClose);
+    document.addEventListener('click', this._closeByClickOutSideModalWindow);
   }
 
   close() {
     this._popup.classList.remove('modal__overlay_active');
-    document.removeEventListener('keyup', (event) => {
-      this._handleEscClose(event);
-    });
-    document.removeEventListener('click', (event) => {
-      this._closeByClickOutSideModalWindow(event);
-    });
+
+    document.removeEventListener('keyup', this._handleEscClose);
+    document.removeEventListener('click', this._closeByClickOutSideModalWindow);
   }
 
   setEventListeners() {
@@ -32,11 +27,7 @@ export class Popup {
 
   _handleEscClose(event) {
     if (event.key === 'Escape') {
-      const activeModalWindows = document.querySelector('.modal__overlay_active');
-
-      if (activeModalWindows) {
-        this.close();
-      }
+      this.close();
     }
   }
 
