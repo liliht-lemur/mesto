@@ -1,0 +1,9 @@
+.button__image_edit-avatar {
+  width: 26px;
+  height: 26px;
+  z-index: 2;
+}
+
+.button__image_edit-avatar:hover {
+  z-index: 6;
+}

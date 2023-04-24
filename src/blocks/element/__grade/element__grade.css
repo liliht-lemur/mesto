@@ -1,0 +1,6 @@
+.element__grade {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3px;
+}

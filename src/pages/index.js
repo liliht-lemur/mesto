@@ -4,11 +4,23 @@ import { Section } from '../components/Section.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
-
-import { initialCardsDetails } from '../utils/constants.js';
+import { Api } from '../components/Api.js';
 import './index.css';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
-(() => {
+(async () => {
+  const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-64/cards',
+    headers: {
+      authorization: 'fbbc2820-3ad6-4359-8291-c4a6cd0cdb35',
+      'Content-Type': 'application/json',
+    }
+  });
+
+  const initialCardsDetails = await api.getInitialCards();
+  const myProfileDetails = await api.getAboutMe();
+  const { _id: ownerId, name, about, avatar } = myProfileDetails;
+
   const formList = document.querySelectorAll('.forms');
 
   const formValidatorsList = Array.from(formList).map(form => {
@@ -19,29 +31,44 @@ import './index.css';
 
   const elementsSectionSelector = '.elements';
   const modalWindowImgSelector = '.modal__overlay_img';
+  const modalWindowConfirmSelector = '.modal__overlay_delete';
   const modalWindowAddNewCardSelector = '.modal__overlay_add';
   const modalWindowProfileSelector = '.modal__overlay_profile';
+  const modalWindowAvatarSelector = '.modal__overlay_avatar';
   const userNameSelector = '.profile__title';
   const userInfoSelector = '.profile__subtitle';
+  const userAvatarSelector = '.profile__image'
 
   // Create classes section
   const popupWithImage = new PopupWithImage(modalWindowImgSelector);
+  const popupWithConfirm = new PopupWithConfirmation(modalWindowConfirmSelector, handleDeleteCardSubmit);
   const cardCreatePopup = new PopupWithForm(modalWindowAddNewCardSelector, handleFormAddSubmit);
   const profileEditPopup = new PopupWithForm(modalWindowProfileSelector, handleFormProfileSubmit);
-  const userCard = new UserInfo({ userNameSelector, userInfoSelector });
+  const avatarEditPopup = new PopupWithForm(modalWindowAvatarSelector, handleFormAvatarSubmit);
+  const userCard = new UserInfo(
+    { userNameSelector, userInfoSelector, userAvatarSelector },
+    { handleGetUserInfo, handleSetUserInfo, handleSetNewAvatar }
+  );
+
+  await userCard.setUserInfo(name, about);
+  await userCard.setUserAvatar(avatar);
 
   const section = new Section({
     cardDetailsList: initialCardsDetails,
     renderer: (cardDetails, pointMount) => {
-      const { name, link } = cardDetails;
-      const newCard = createCard(name, link);
+      const { name, link, likes, owner, _id: cardId } = cardDetails;
+      const { _id: cardOwnerId } = owner;
+
+      const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
       renderCard(newCard, pointMount);
     }
   }, elementsSectionSelector);
 
+  popupWithConfirm.setEventListeners();
   popupWithImage.setEventListeners();
   cardCreatePopup.setEventListeners();
   profileEditPopup.setEventListeners();
+  avatarEditPopup.setEventListeners();
   section.renderCards();
 
   // Изменение профиля 
@@ -53,16 +80,24 @@ import './index.css';
   const modalWindowProfile = document.querySelector('.modal__overlay');
   const profile = document.querySelector('.profile');
   const editButton = profile.querySelector('.button_edit');
+  const avatarSetButton = profile.querySelector('.button_edit-avatar');
+  const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
+  const buttonSubmitEdit = document.querySelector('.button_submit-edit');
+  
   const inputNameFormProfile = modalWindowProfile.querySelector(userNameInput);
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
 
-  editButton.addEventListener('click', function () {
-    const { userName, userInfo } = userCard.getUserInfo();
+  editButton.addEventListener('click', async function () {
+    const { userName, userInfo } = await userCard.getUserInfo();
 
     inputNameFormProfile.value = userName;
     inputAboutSelfFormProfile.value = userInfo;
 
     profileEditPopup.open();
+  });
+
+  avatarSetButton.addEventListener('click', function () {
+    avatarEditPopup.open();
   });
 
   // Форма добавления карточки
@@ -77,15 +112,50 @@ import './index.css';
     cardCreatePopup.open();
   })
 
+
+
   // functions block
 
-  function handleFormProfileSubmit(inputValuesList) {
-    const [name, info] = inputValuesList;
-    userCard.setUserInfo(name, info);
+  function handleDeleteCardButtonClick(card) {
+    popupWithConfirm.open(card);
   }
 
-  function createCard(name, link) {
-    const card = new Card(name, link, '#cardTemplate', handleCardClick);
+  async function handleDeleteCardSubmit(card) {
+    const cardId = card.getAttribute('card_id');
+
+    await api.deleteCard(cardId);
+  }
+
+  async function handleFormAvatarSubmit(inputValuesList) {
+    buttonSubmitAvatar.textContent = 'Сохранение...';
+    
+    const [avatar] = inputValuesList;
+    await userCard.setUserAvatar(avatar);
+
+    buttonSubmitAvatar.textContent = 'Сохранить';
+  }
+
+  async function handleFormProfileSubmit(inputValuesList) {
+    buttonSubmitEdit.textContent = 'Сохранение...';
+
+    const [name, info] = inputValuesList;
+    await userCard.setUserInfo(name, info);
+
+    buttonSubmitEdit.textContent = 'Сохранить';
+  }
+
+  function createCard(details) {
+    const card = new Card(
+      details,
+      '#cardTemplate',
+      handleCardClick,
+      handleDeleteCardButtonClick,
+      {
+        add: handleLikeAddClick,
+        remove: handleLikeRemoveClick,
+      },
+    );
+
     return card.createCard();
   }
 
@@ -93,8 +163,29 @@ import './index.css';
     pointMount.append(newCard);
   }
 
+
   function handleCardClick(event) {
     popupWithImage.open(event.target);
+  }
+
+  async function handleGetUserInfo() {
+    return api.getAboutMe();
+  }
+
+  async function handleSetUserInfo(name, about) {
+    return api.updateAboutMe(name, about);
+  }
+
+  async function handleSetNewAvatar(avatar) {
+    return api.updateMyAvatar(avatar);
+  }
+
+  async function handleLikeAddClick(cardId) {
+    return api.addLike(cardId);
+  }
+
+  function handleLikeRemoveClick(cardId) {
+    return api.removeLike(cardId);
   }
 
   function createFormValidator(form) {
@@ -108,9 +199,19 @@ import './index.css';
     );
   }
 
-  function handleFormAddSubmit(inputValuesList) {
-    const [name, link] = inputValuesList;
-    const newCard = createCard(name, link);
+  async function handleFormAddSubmit(inputValuesList) {
+    const [nameValue, linkValue] = inputValuesList;
+
+    addNewCardButtonSubmit.textContent='Создание...';
+
+    const insertResult = await api.createCard(nameValue, linkValue);
+
+    const { name, link, likes, owner, _id: cardId } = insertResult;
+    const { _id: cardOwnerId } = owner;
+
+    const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
+
+    addNewCardButtonSubmit.textContent='Создать';
 
     section.addItem(newCard);
 

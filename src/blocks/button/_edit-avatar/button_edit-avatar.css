@@ -1,0 +1,14 @@
+.button_edit-avatar {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  left: 0;
+  top: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+}
+
+.button_edit-avatar:hover {
+  z-index: 6;
+}
