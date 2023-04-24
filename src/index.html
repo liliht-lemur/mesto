@@ -17,11 +17,17 @@
   <main>
     <section class="profile content">
       <div class="profile__list">
-        <!-- <img src="./images/Kusto.jpg" alt="Аватар" class="profile__image"> -->
-        <img src="<%=require('./images/Kusto.jpg')%>" alt="Аватар" class="profile__image">
+        <div class="profile__image-wrapper">
+          <img src="" alt="Аватар" class="profile__image">
+
+        </div>
+        
+        <button aria-label="edit" class="button button_edit-avatar">
+          <img src="<%=require('./images/Vector.svg')%>" alt="Изменить" class="button__image button__image_edit-avatar">
+        </button>
         <div class="profile__description">
-          <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <p class="profile__subtitle">Исследователь океана</p>
+          <h1 class="profile__title"></h1>
+          <p class="profile__subtitle"></p>
           <button aria-label="edit" class="button button_edit cursor">
             <img src="<%=require('./images/Vector.svg')%>" alt="Изменить" class="button__image button__image_edit">
           </button>
@@ -38,7 +44,10 @@
           <button aria-label="trash" class="element__delete cursor"></button>
           <div class="element__name">
             <h2 class="element__title"></h2>
-            <button aria-label="like" class="element__like"></button>
+            <div class="element__grade">
+              <button aria-label="like" class="element__like"></button>
+              <p class="element__like-counter">2</p>
+            </div>
           </div>
         </div>
       </template>
@@ -63,7 +72,7 @@
             type="text" placeholder="Род занятий" required minlength="2" maxlength="200">
             <span class="about-self-error modal__description-error"></span>
           </div>
-          <button aria-label="save" class="button button_submit cursor">Сохранить</button>
+          <button aria-label="save" class="button button_submit cursor button_submit-edit">Сохранить</button>
         </form>
       </div>
     </div>
@@ -83,7 +92,7 @@
             required type="URL">
             <span class="link-input-error modal__description-error"></span> 
           </div>
-          <button aria-label="save" class="button button_submit cursor">Создать</button>
+          <button aria-label="save" class="button button_submit cursor button_submit-create">Создать</button>
         </form>
       </div>
     </div>
@@ -94,6 +103,36 @@
         <button aria-label="close" class="modal__close modal__close_img cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <img src="#" alt="#" class="modal__photo">
         <h6 class="modal__title modal__title_img"></h6>
+      </div>
+    </div>
+  </aside>
+
+
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_delete">
+      <div class="modal__form">
+        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
+        <h2 class="modal__title">Вы уверены?</h2>
+        <form class="modal__delete forms" action="#" novalidate>
+          <button aria-label="save" class="button button_submit cursor button_submit-delete">Да</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_avatar">
+      <div class="modal__form">
+        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
+        <h2 class="modal__title">Обновить аватар</h2>
+        <form class="modal__add forms" action="#" novalidate>
+          <div class="modal__input">
+            <input id="link-input" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link"
+            required type="URL">
+            <span class="link-input-error modal__description-error"></span> 
+          </div>
+          <button aria-label="save" class="button button_submit cursor button_submit-avatar">Сохранить</button>
+        </form>
       </div>
     </div>
   </aside>
