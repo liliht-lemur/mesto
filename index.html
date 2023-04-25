@@ -1,1 +1,137 @@
-<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Permissions-Policy" content="interest-cohort=()"><title>Mesto Russia</title><script defer="defer" src="main.js"></script><link href="main.css" rel="stylesheet"></head><body class="root"><header class="header content"><img src="03b78ada3425e9132ff3.svg" alt="Лого" class="header__logo"></header><main><section class="profile content"><div class="profile__list"><div class="profile__image-wrapper"><img src="" alt="Аватар" class="profile__image"> <button aria-label="edit" class="button button_edit-avatar"><img src="8667ac4a523e8fc42e59.svg" alt="Изменить" class="button__image button__image_edit-avatar"></button></div><div class="profile__description"><h1 class="profile__title"></h1><p class="profile__subtitle"></p><button aria-label="edit" class="button button_edit cursor"><img src="8667ac4a523e8fc42e59.svg" alt="Изменить" class="button__image button__image_edit"></button></div></div><button aria-label="add" class="button button_add cursor"><img src="d86bb2edc2f6eadb96b7.svg" alt="Добавить" class="button__image button__image_add"></button></section><section class="elements content" aria-label="Фото"><template id="cardTemplate"><div class="element"><img class="element__photo cursor"> <button aria-label="trash" class="element__delete cursor"></button><div class="element__name"><h2 class="element__title"></h2><div class="element__grade"><button aria-label="like" class="element__like"></button><p class="element__like-counter">2</p></div></div></div></template></section></main><footer class="footer content"><p class="footer__copyright">&#169; 2020 Mesto Russia</p></footer><aside class="modal"><div class="modal__overlay modal__overlay_profile"><div class="modal__form"><button aria-label="close" class="modal__close cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button><h2 class="modal__title">Редактировать профиль</h2><form class="modal__edit forms" action="#" novalidate><div class="modal__input"><input id="name-input" class="modal__description modal__description_type_name" name="name" placeholder="Ваше имя" required minlength="2" maxlength="40"> <span class="name-input-error modal__description-error"></span></div><div class="modal__input"><input id="about-self" class="modal__description modal__description_type_about-self" name="about-self" placeholder="Род занятий" required minlength="2" maxlength="200"> <span class="about-self-error modal__description-error"></span></div><button aria-label="save" class="button button_submit cursor button_submit-edit">Сохранить</button></form></div></div></aside><aside class="modal"><div class="modal__overlay modal__overlay_add"><div class="modal__form"><button aria-label="close" class="modal__close modal__close_add cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button><h2 class="modal__title">Новое место</h2><form class="modal__add forms" action="#" novalidate><div class="modal__input"><input id="heading-input" class="modal__description modal__description_type_heading" placeholder="Название" name="heading" minlength="2" maxlength="30" required> <span class="heading-input-error modal__description-error"></span></div><div class="modal__input"><input id="link-input" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link" required type="URL"> <span class="link-input-error modal__description-error"></span></div><button aria-label="save" class="button button_submit cursor button_submit-create">Создать</button></form></div></div></aside><aside class="modal"><div class="modal__overlay modal__overlay_img"><div class="modal__form modal__form_img"><button aria-label="close" class="modal__close modal__close_img cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button> <img src="#" alt="#" class="modal__photo"><h6 class="modal__title modal__title_img"></h6></div></div></aside><aside class="modal"><div class="modal__overlay modal__overlay_delete"><div class="modal__form"><button aria-label="close" class="modal__close modal__close_add cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button><h2 class="modal__title">Вы уверены?</h2><form class="modal__delete forms" action="#" novalidate><button aria-label="save" class="button button_submit cursor button_submit-delete">Да</button></form></div></div></aside><aside class="modal"><div class="modal__overlay modal__overlay_avatar"><div class="modal__form"><button aria-label="close" class="modal__close modal__close_add cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button><h2 class="modal__title">Обновить аватар</h2><form class="modal__add forms" action="#" novalidate><div class="modal__input"><input id="link-input" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link" required type="URL"> <span class="link-input-error modal__description-error"></span></div><button aria-label="save" class="button button_submit cursor button_submit-avatar">Сохранить</button></form></div></div></aside></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+  <title>Mesto Russia</title>
+<script defer src="main.js"></script><link href="main.css" rel="stylesheet"></head>
+
+<body class="root">
+  <header class="header content">
+    <img src="03b78ada3425e9132ff3.svg" alt="Лого" class="header__logo">
+  </header>
+  <main>
+    <section class="profile content">
+      <div class="profile__list">
+        <div class="profile__image-wrapper">
+          <img src="" alt="Аватар" class="profile__image">
+          <button aria-label="edit" class="button button_edit-avatar">
+            <img src="8667ac4a523e8fc42e59.svg" alt="Изменить" class="button__image button__image_edit-avatar">
+          </button>
+        </div>
+        <div class="profile__description">
+          <h1 class="profile__title"></h1>
+          <p class="profile__subtitle"></p>
+          <button aria-label="edit" class="button button_edit cursor">
+            <img src="8667ac4a523e8fc42e59.svg" alt="Изменить" class="button__image button__image_edit">
+          </button>
+        </div>
+      </div>
+      <button aria-label="add" class="button button_add cursor">
+        <img src="d86bb2edc2f6eadb96b7.svg" alt="Добавить" class="button__image button__image_add">
+      </button>
+    </section>
+    <section class="elements content" aria-label="Фото">
+      <template id="cardTemplate">
+        <div class="element">
+          <img class="element__photo cursor">
+          <button aria-label="trash" class="element__delete cursor"></button>
+          <div class="element__name">
+            <h2 class="element__title"></h2>
+            <div class="element__grade">
+              <button aria-label="like" class="element__like"></button>
+              <p class="element__like-counter">2</p>
+            </div>
+          </div>
+        </div>
+      </template>
+
+    </section>
+  </main>
+  <footer class="footer content">
+    <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
+  </footer>
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_profile">
+      <div class="modal__form">
+        <button aria-label="close" class="modal__close cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button>
+        <h2 class="modal__title">Редактировать профиль</h2>
+        <form class="modal__edit forms" action="#" novalidate>
+          <div class="modal__input">
+            <input id="name-input" class="modal__description modal__description_type_name" name="name" type="text" placeholder="Ваше имя" required minlength="2" maxlength="40">
+            <span class="name-input-error modal__description-error"></span>
+          </div>
+          <div class="modal__input">
+            <input id="about-self" class="modal__description modal__description_type_about-self" name="about-self"
+            type="text" placeholder="Род занятий" required minlength="2" maxlength="200">
+            <span class="about-self-error modal__description-error"></span>
+          </div>
+          <button aria-label="save" class="button button_submit cursor button_submit-edit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_add">
+      <div class="modal__form">
+        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button>
+        <h2 class="modal__title">Новое место</h2>
+        <form class="modal__add forms" action="#" novalidate>
+          <div class="modal__input">
+            <input id="heading-input" class="modal__description modal__description_type_heading" placeholder="Название" name="heading" type="text" minlength="2" maxlength="30" required>
+            <span class="heading-input-error modal__description-error"></span>
+          </div>
+          <div class="modal__input">
+            <input id="link-input" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link"
+            required type="URL">
+            <span class="link-input-error modal__description-error"></span> 
+          </div>
+          <button aria-label="save" class="button button_submit cursor button_submit-create">Создать</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_img">
+      <div class="modal__form modal__form_img">
+        <button aria-label="close" class="modal__close modal__close_img cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button>
+        <img src="#" alt="#" class="modal__photo">
+        <h6 class="modal__title modal__title_img"></h6>
+      </div>
+    </div>
+  </aside>
+
+
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_delete">
+      <div class="modal__form">
+        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button>
+        <h2 class="modal__title">Вы уверены?</h2>
+        <form class="modal__delete forms" action="#" novalidate>
+          <button aria-label="save" class="button button_submit cursor button_submit-delete">Да</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="modal">
+    <div class="modal__overlay modal__overlay_avatar">
+      <div class="modal__form">
+        <button aria-label="close" class="modal__close modal__close_add cursor"><img src="2ceb783afbab75916ddc.svg" alt="Закрыть" class="modal__image"></button>
+        <h2 class="modal__title">Обновить аватар</h2>
+        <form class="modal__add forms" action="#" novalidate>
+          <div class="modal__input">
+            <input id="link-input" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link"
+            required type="URL">
+            <span class="link-input-error modal__description-error"></span> 
+          </div>
+          <button aria-label="save" class="button button_submit cursor button_submit-avatar">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+</body>
+</html>
