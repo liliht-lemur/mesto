@@ -6,6 +6,7 @@
   color: #FFFFFF;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 @media (max-width: 373px) {
   .profile__title {

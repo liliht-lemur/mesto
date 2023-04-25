@@ -6,25 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto Russia</title>
-  <!-- <link rel="stylesheet" href="./css/pages/index.css"> -->
 </head>
 
 <body class="root">
   <header class="header content">
     <img src="<%=require('./images/logo.svg')%>" alt="Лого" class="header__logo">
-    <!-- <img src="./images/logo.svg" alt="Лого" class="header__logo"> -->
   </header>
   <main>
     <section class="profile content">
       <div class="profile__list">
         <div class="profile__image-wrapper">
           <img src="" alt="Аватар" class="profile__image">
-
+          <button aria-label="edit" class="button button_edit-avatar">
+            <img src="<%=require('./images/Vector.svg')%>" alt="Изменить" class="button__image button__image_edit-avatar">
+          </button>
         </div>
-        
-        <button aria-label="edit" class="button button_edit-avatar">
-          <img src="<%=require('./images/Vector.svg')%>" alt="Изменить" class="button__image button__image_edit-avatar">
-        </button>
         <div class="profile__description">
           <h1 class="profile__title"></h1>
           <p class="profile__subtitle"></p>
