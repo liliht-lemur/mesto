@@ -53,7 +53,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   await userCard.setUserInfo(name, about);
   await userCard.setUserAvatar(avatar);
 
-  const section = new Section({
+  const cardsSection = new Section({
     cardDetailsList: initialCardsDetails,
     renderer: (cardDetails, pointMount) => {
       const { name, link, likes, owner, _id: cardId } = cardDetails;
@@ -69,7 +69,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   cardCreatePopup.setEventListeners();
   profileEditPopup.setEventListeners();
   avatarEditPopup.setEventListeners();
-  section.renderCards();
+  cardsSection.renderCards();
 
   // Изменение профиля 
 
@@ -79,7 +79,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
   const modalWindowProfile = document.querySelector('.modal__overlay');
   const profile = document.querySelector('.profile');
-  const editButton = profile.querySelector('.button_edit');
+  const buttonEdit = profile.querySelector('.button_edit');
   const avatarSetButton = profile.querySelector('.button_edit-avatar');
   const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
   const buttonSubmitEdit = document.querySelector('.button_submit-edit');
@@ -87,7 +87,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   const inputNameFormProfile = modalWindowProfile.querySelector(userNameInput);
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
 
-  editButton.addEventListener('click', async function () {
+  buttonEdit.addEventListener('click', async function () {
     const { userName, userInfo } = await userCard.getUserInfo();
 
     inputNameFormProfile.value = userName;
@@ -104,11 +104,11 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
   const formAddNewCardSelector = '.modal__add';
 
-  const addButton = document.querySelector('.button_add');
+  const buttonAdd = document.querySelector('.button_add');
   const formAddNewCard = document.querySelector(formAddNewCardSelector);
   const addNewCardButtonSubmit = formAddNewCard.querySelector('.button_submit');
 
-  addButton.addEventListener('click', () => {
+  buttonAdd.addEventListener('click', () => {
     cardCreatePopup.open();
   })
 
@@ -213,7 +213,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
     addNewCardButtonSubmit.textContent='Создать';
 
-    section.addItem(newCard);
+    cardsSection.addItem(newCard);
 
     formValidatorsList[1].disableSubmitButton(addNewCardButtonSubmit);
   }

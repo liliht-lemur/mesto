@@ -10,12 +10,12 @@ export class FormValidator {
     this._removeVisibilityModalWindow = removeVisibilityModalWindow;
 
     this._inputList = this._form.querySelectorAll(this._inputSelector);
-    this._submitButton = this._form.querySelector(this._submitButtonSelector)
+    this._buttonSubmit = this._form.querySelector(this._submitButtonSelector)
   }
 
   disableSubmitButton() {
-    this._submitButton.setAttribute('disabled', true);
-    this._submitButton.classList.add(this._inactiveButtonClass);
+    this._buttonSubmit.setAttribute('disabled', true);
+    this._buttonSubmit.classList.add(this._inactiveButtonClass);
   }
 
   _showInputError(inputElem, errorMessage) {
@@ -42,11 +42,11 @@ export class FormValidator {
 
   _toggleButtonState() {
     if (this._hasInvalidInput(this._inputList)) {
-      this._submitButton.classList.add(this._inactiveButtonClass);
-      this._submitButton.setAttribute('disabled', true);
+      this._buttonSubmit.classList.add(this._inactiveButtonClass);
+      this._buttonSubmit.setAttribute('disabled', true);
     } else {
-      this._submitButton.classList.remove(this._inactiveButtonClass);
-      this._submitButton.removeAttribute('disabled');
+      this._buttonSubmit.classList.remove(this._inactiveButtonClass);
+      this._buttonSubmit.removeAttribute('disabled');
     }
   };
 

@@ -6,11 +6,9 @@ export class Section {
   }
 
   renderCards() {
-    // if (typeof this._cardDetailsList === 'array') {
       this._cardDetailsList.forEach((item) => {
         this._renderer(item, this._container);
       });
-    // }
   }
 
   addItem(newCard) {
@@ -18,4 +16,3 @@ export class Section {
   }
 }
 
-[].length

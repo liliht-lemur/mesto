@@ -14,7 +14,7 @@ export class Api {
   async getInitialCards() {
     const response = fetch(this._url, this._headers);
     
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async createCard(name, link) {
@@ -27,7 +27,7 @@ export class Api {
       })
     })
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async deleteCard(cardId) {
@@ -36,13 +36,13 @@ export class Api {
       method: 'DELETE',
     });
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async getAboutMe() {
     const response = fetch(this._aboutMeUrl, this._headers);
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async updateAboutMe(name, about) {
@@ -55,7 +55,7 @@ export class Api {
       })
     });
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async updateMyAvatar(avatar) {
@@ -67,7 +67,7 @@ export class Api {
       })
     });
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async addLike(cardId) {
@@ -76,7 +76,7 @@ export class Api {
       method: 'PUT'
     });
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
   async removeLike(cardId) {
@@ -85,10 +85,10 @@ export class Api {
       method: 'DELETE'
     });
 
-    return this.responseHandler(response);
+    return this.handleResponse(response);
   }
 
-  async responseHandler(promise) {
+  async handleResponse(promise) {
     return promise
     .then(res => {
       if (res.ok) {
