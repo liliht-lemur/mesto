@@ -1,12 +1,12 @@
 import { FormValidator } from '../components/FormValidator.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
-import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 import { Api } from '../components/Api.js';
 import './index.css';
-import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
 (() => {
   const api = new Api({
@@ -47,7 +47,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
   const userCard = new UserInfo(
     { userNameSelector, userInfoSelector, userAvatarSelector },
-    { handleGetUserInfo, handleSetUserInfo, handleSetNewAvatar }
+    { handleSetUserInfo, handleSetNewAvatar }
   );
 
 
@@ -179,19 +179,15 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
     popupWithImage.open(event.target);
   }
 
-  async function handleGetUserInfo() {
-    return api.getAboutMe();
-  }
-
-  async function handleSetUserInfo(name, about) {
+  function handleSetUserInfo(name, about) {
     return api.updateAboutMe(name, about);
   }
 
-  async function handleSetNewAvatar(avatar) {
+  function handleSetNewAvatar(avatar) {
     return api.updateMyAvatar(avatar);
   }
 
-  async function handleLikeUpdate(isLiked, cardId) {
+  function handleLikeUpdate(isLiked, cardId) {
     return isLiked
       ? api.removeLike(cardId)
       : api.addLike(cardId);
@@ -220,7 +216,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
       .then((card) => {
         const { name, link, likes, owner, _id: cardId } = card;
         const { _id: cardOwnerId } = owner;
-        const newCard = createCard({ title: name, link, likes, cardId, ownerId : myId, cardOwnerId });
+        const newCard = createCard({ title: name, link, likes, cardId, ownerId: myId, cardOwnerId });
         cardsSection.addItem(newCard);
       })
       .then(() => {

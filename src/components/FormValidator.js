@@ -69,6 +69,25 @@ export class FormValidator {
   };
 
   enableValidation() {
+
+
+    console.log({
+      name: this._form.getAttribute('name'),
+      'this._form': this._form,
+      'this._inputSelector': this._inputSelector,
+      'this._submitButtonSelector': this._submitButtonSelector,
+      'this._inactiveButtonClass': this._inactiveButtonClass,
+
+      'this._inputErrorClass': this._inputErrorClass,
+      'this._errorClass': this._errorClass,
+      'this._removeVisibilityModalWindow ': this._removeVisibilityModalWindow,
+
+      'this._inputList': this._inputList,
+      'this._buttonSubmit': this._buttonSubmit,
+    })
+
+
+
     this._setEventListeners();
   };
 }

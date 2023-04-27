@@ -7,7 +7,6 @@ export class UserInfo {
     this._buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
 
 
-    this._getUserInfo = handlersApi.handleGetUserInfo
     this._setUserInfo = handlersApi.handleSetUserInfo
     this._setUserAvatar = handlersApi.handleSetNewAvatar
 
@@ -22,8 +21,8 @@ export class UserInfo {
 
   setUserInfo(userName, userInfo) {
     this._buttonSubmitEdit.textContent = 'Сохранение...';
-    this._setUserInfo(userName, userInfo)
-    .then((details)=> {
+
+    return this._setUserInfo(userName, userInfo).then((details)=> {
       this._userNameElem.textContent = details.name;
       this._userInfoElem.textContent = details.about;
     })
@@ -36,11 +35,10 @@ export class UserInfo {
   
   setUserAvatar(avatar) {
     this._buttonSubmitAvatar.textContent = 'Сохранение...';
-    this._setUserAvatar(avatar)
-    .then((avatar1)=> {
-      console.log({avatar1})
 
-      this._userAvatarElem.setAttribute('src', avatar);
+    return this._setUserAvatar(avatar)
+    .then((details)=> {
+      this._userAvatarElem.setAttribute('src', details.avatar);
     })
     .catch(e => console.log(e))
     .finally(() => {

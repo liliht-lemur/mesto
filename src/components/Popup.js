@@ -9,20 +9,19 @@ export class Popup {
   open() {
     this._popup.classList.add('modal__overlay_active');
     document.addEventListener('keyup', this._handleEscClose);
-    document.addEventListener('click', this._closeByClickOutSideModalWindow);
   }
 
   close() {
     this._popup.classList.remove('modal__overlay_active');
 
     document.removeEventListener('keyup', this._handleEscClose);
-    document.removeEventListener('click', this._closeByClickOutSideModalWindow);
   }
 
   setEventListeners() {
     this._modalClose.addEventListener('click', () => {
       this.close();
     });
+    this._popup.addEventListener('click', this._closeByClickOutSideModalWindow);
   }
 
   _handleEscClose(event) {
