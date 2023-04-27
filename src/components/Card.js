@@ -25,7 +25,7 @@ export class Card {
     this._buttonDelete = this._newCard.querySelector('.element__delete');
 
     this.getId = this._getId;
-    this.getCard = this._getCard;
+    this.deleteCard = this._deleteCard;
   }
 
   _getTemplate() {
@@ -40,8 +40,8 @@ export class Card {
     return this._cardId;
   }
 
-  _getCard() {
-    return this._newCard;
+  _deleteCard() {
+    this._newCard.remove();
   }
 
   createCard() {
@@ -80,7 +80,7 @@ export class Card {
     this._cardImage.addEventListener('click', this._handleCardClick);
   }
 
-  async _handleLikeClick() {
+  _handleLikeClick() {
     this._handleLikeUpdate(this._isILike, this._cardId)
       .then(card => {
         this._likes = card.likes;

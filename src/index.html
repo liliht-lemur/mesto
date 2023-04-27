@@ -59,7 +59,7 @@
       <div class="modal__form">
         <button aria-label="close" class="modal__close cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Редактировать профиль</h2>
-        <form class="modal__edit forms" action="#" novalidate>
+        <form class="modal__edit forms" name="profile_info" action="#" novalidate>
           <div class="modal__input">
             <input id="name-input" class="modal__description modal__description_type_name" name="name" type="text" placeholder="Ваше имя" required minlength="2" maxlength="40">
             <span class="name-input-error modal__description-error"></span>
@@ -79,7 +79,7 @@
       <div class="modal__form">
         <button aria-label="close" class="modal__close modal__close_add cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Новое место</h2>
-        <form class="modal__add forms" action="#" novalidate>
+        <form class="modal__add forms" name="add_card" action="#" novalidate>
           <div class="modal__input">
             <input id="heading-input" class="modal__description modal__description_type_heading" placeholder="Название" name="heading" type="text" minlength="2" maxlength="30" required>
             <span class="heading-input-error modal__description-error"></span>
@@ -110,7 +110,7 @@
       <div class="modal__form">
         <button aria-label="close" class="modal__close modal__close_add cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Вы уверены?</h2>
-        <form class="modal__delete forms" action="#" novalidate>
+        <form class="modal__delete forms" name="confirmation" action="#" novalidate>
           <button aria-label="save" class="button button_submit cursor button_submit-delete">Да</button>
         </form>
       </div>
@@ -122,7 +122,7 @@
       <div class="modal__form">
         <button aria-label="close" class="modal__close modal__close_add cursor"><img src="<%=require('./images/Close_Icon.svg')%>" alt="Закрыть" class="modal__image"></button>
         <h2 class="modal__title">Обновить аватар</h2>
-        <form class="modal__add forms" action="#" novalidate>
+        <form class="modal__add forms" name="set_avatar"  action="#" novalidate>
           <div class="modal__input">
             <input id="link-input-avatar" class="modal__description modal__description_type_link" placeholder="Ссылка на картинку" name="link"
             required type="URL">
