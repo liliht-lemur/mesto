@@ -8,7 +8,7 @@ export class Card {
     this._cardOwnerId = details.cardOwnerId;
 
     this._likesLength = this._likes.length;
-    this._isILike = this._checkIsLiked();
+    this._isLiked = this._checkIsLiked();
 
     this._templateSelector = templateSelector;
 
@@ -24,7 +24,9 @@ export class Card {
     this._buttonLike = this._newCard.querySelector('.element__like');
     this._counterLike = this._newCard.querySelector('.element__like-counter');
     this._buttonDelete = this._newCard.querySelector('.element__delete');
-
+    
+    this.getId = this._getId;
+    this.getCard = this._getCard;
   }
 
   _getTemplate() {
@@ -35,8 +37,12 @@ export class Card {
       .cloneNode(true);
   }
 
-  getId() {
+  _getId() {
     return this._cardId;
+  }
+
+  _getCard() {
+    return this._newCard;
   }
 
   createCard() {
@@ -45,7 +51,7 @@ export class Card {
     this._cardImage.setAttribute('alt', this._title);
     this._counterLike.textContent = this._likesLength;
 
-    if (this._isILike) {
+    if (this._isLiked) {
       this._buttonLike.classList.add('element__like_active');
     }
 
@@ -76,23 +82,23 @@ export class Card {
   }
 
   async _handleLikeClick() {
-    const { likes } = this._isILike
+    const { likes } = this._isLiked
       ? await this._handleLikeRemove(this._cardId)
       : await this._handleLikeAdd(this._cardId);
 
-    this._isILike
+    this._isLiked
       ? this._buttonLike.classList.remove('element__like_active')
       : this._buttonLike.classList.add('element__like_active');
 
     this._likes = likes;
     this._likesLength = this._likes.length;
-    this._isILike = this._checkIsLiked();
+    this._isLiked = this._checkIsLiked();
     this._counterLike.textContent = this._likesLength;
 
 
   };
 
   _handleDeleteButton() {
-    this._handleDeleteCardButtonClick(this._newCard , this._cardId);
+    this._handleDeleteCardButtonClick(this);
   };
 }

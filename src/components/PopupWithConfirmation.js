@@ -7,12 +7,10 @@ export class PopupWithConfirmation extends Popup {
     this._submitCallback = submitCallback;
     this._buttonSubmitDelete = this._form.querySelector('.button_submit-delete');
     this._card = null;
-    this._cardId = null;
   }
 
-  open(card, cardId) {
+  open(card) {
     this._card = card;
-    this._cardId = cardId;
     super.open();
   }
 
@@ -24,11 +22,14 @@ export class PopupWithConfirmation extends Popup {
 
       this._buttonSubmitDelete.textContent = 'Удаление...';
 
-      await this._submitCallback( this._cardId)
+      const cardId = this._card.getId();
+      const card = this._card.getCard();
+
+      this._submitCallback(cardId)
       .catch((e) => console.log(e))
       .finally(()=>{
         this._buttonSubmitDelete.textContent = 'Да';
-        this._card.remove();
+        card.remove();
         this.close();
       });;
     });

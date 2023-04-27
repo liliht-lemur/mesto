@@ -117,8 +117,8 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
   // functions block
 
-  function handleDeleteCardButtonClick(card, cardId) {
-    popupWithConfirm.open(card, cardId);
+  function handleDeleteCardButtonClick(card) {
+    popupWithConfirm.open(card);
   }
 
   async function handleDeleteCardSubmit(cardId) {
