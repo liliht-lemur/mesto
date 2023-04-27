@@ -54,8 +54,8 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
     { handleGetUserInfo, handleSetUserInfo, handleSetNewAvatar }
   );
 
-  await userCard.setUserInfo(name, about);
-  await userCard.setUserAvatar(avatar);
+  userCard.setUserInfo(name, about);
+  userCard.setUserAvatar(avatar);
 
   const cardsSection = new Section({
     cardDetailsList: initialCardsDetails,
@@ -86,8 +86,9 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   const profile = document.querySelector('.profile');
   const buttonEdit = profile.querySelector('.button_edit');
   const avatarSetButton = profile.querySelector('.button_edit-avatar');
-  const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
-  const buttonSubmitEdit = document.querySelector('.button_submit-edit');
+
+  //const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
+  // const buttonSubmitEdit = document.querySelector('.button_submit-edit');
 
   const inputNameFormProfile = modalWindowProfile.querySelector(userNameInput);
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
@@ -125,32 +126,22 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
     popupWithConfirm.open(card);
   }
 
-  async function handleDeleteCardSubmit(cardId) {
+ function handleDeleteCardSubmit(cardId) {
     return api.deleteCard(cardId);
   }
 
-
-
-
-
-
-
-  async function handleFormAvatarSubmit(inputValuesList) {
-    buttonSubmitAvatar.textContent = 'Сохранение...';
-
+ function handleFormAvatarSubmit(inputValuesList) {
     const [avatar] = inputValuesList;
-    await userCard.setUserAvatar(avatar);
+    return userCard.setUserAvatar(avatar);
 
-    buttonSubmitAvatar.textContent = 'Сохранить';
+    // buttonSubmitAvatar.textContent = 'Сохранить';
   }
 
-  async function handleFormProfileSubmit(inputValuesList) {
-    buttonSubmitEdit.textContent = 'Сохранение...';
-
+ function handleFormProfileSubmit(inputValuesList) {
     const [name, info] = inputValuesList;
-    await userCard.setUserInfo(name, info);
+    return userCard.setUserInfo(name, info);
 
-    buttonSubmitEdit.textContent = 'Сохранить';
+   // buttonSubmitEdit.textContent = 'Сохранить';
   }
 
   function createCard(details) {

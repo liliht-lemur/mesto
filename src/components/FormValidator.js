@@ -14,6 +14,7 @@ export class FormValidator {
   }
 
   disableSubmitButton() {
+    console.log('1'.repeat(20))
     this._buttonSubmit.setAttribute('disabled', true);
     this._buttonSubmit.classList.add(this._inactiveButtonClass);
   }
