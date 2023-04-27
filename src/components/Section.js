@@ -6,16 +6,12 @@ export class Section {
   }
 
   renderCards() {
-    // if (typeof this._cardDetailsList === 'array') {
       this._cardDetailsList.forEach((item) => {
-        this._renderer(item, this._container);
+        this._renderer(this.addItem.bind(this), item);
       });
-    // }
   }
 
   addItem(newCard) {
     this._container.prepend(newCard);
   }
 }
-
-[].length

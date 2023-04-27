@@ -8,6 +8,9 @@ export class PopupWithForm extends Popup {
     this._inputList = this._form.querySelectorAll('input');
     this._submitCallback = submitCallback;
     this._inputValuesList = this._getInputValues();
+
+    this._buttonSubmit = this._form.querySelector('.button_submit');
+
   }
 
   _getInputValues() {
@@ -17,14 +20,23 @@ export class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    this._modalClose.addEventListener('click', () => this.close());
+    super.setEventListeners();
 
     this._form.addEventListener('submit', (event) => {
       event.preventDefault();
       this._inputValuesList = this._getInputValues();
 
-      this._submitCallback(this._inputValuesList);
-      this.close();
+      this._buttonSubmit.textContent = 'Создание...';
+
+      this._submitCallback(this._inputValuesList)
+        .then(() => {
+          this.close();
+        })
+        .catch(e => console.log(e))
+        .finally(() => {
+          this._buttonSubmit.textContent = 'Создать';
+        })
+
     });
   }
 

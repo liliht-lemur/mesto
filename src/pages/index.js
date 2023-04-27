@@ -1,14 +1,14 @@
 import { FormValidator } from '../components/FormValidator.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
-import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 import { Api } from '../components/Api.js';
 import './index.css';
-import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
-(async () => {
+(() => {
   const api = new Api({
     url: 'https://mesto.nomoreparties.co/v1/cohort-64/cards',
     headers: {
@@ -17,16 +17,14 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
     }
   });
 
-  const initialCardsDetails = await api.getInitialCards();
-  const myProfileDetails = await api.getAboutMe();
-  const { _id: ownerId, name, about, avatar } = myProfileDetails;
-
   const formList = document.querySelectorAll('.forms');
+  const formValidatorsList = {}
 
-  const formValidatorsList = Array.from(formList).map(form => {
-    const formValidator = createFormValidator(form);
-    formValidator.enableValidation();
-    return formValidator;
+  Array.from(formList).forEach(form => {
+    const { formName, validator } = createFormValidator(form);
+    validator.enableValidation();
+
+    formValidatorsList[formName] = validator
   });
 
   const elementsSectionSelector = '.elements';
@@ -45,72 +43,83 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   const cardCreatePopup = new PopupWithForm(modalWindowAddNewCardSelector, handleFormAddSubmit);
   const profileEditPopup = new PopupWithForm(modalWindowProfileSelector, handleFormProfileSubmit);
   const avatarEditPopup = new PopupWithForm(modalWindowAvatarSelector, handleFormAvatarSubmit);
+
+
   const userCard = new UserInfo(
     { userNameSelector, userInfoSelector, userAvatarSelector },
-    { handleGetUserInfo, handleSetUserInfo, handleSetNewAvatar }
+    { handleSetUserInfo, handleSetNewAvatar }
   );
-
-  await userCard.setUserInfo(name, about);
-  await userCard.setUserAvatar(avatar);
-
-  const section = new Section({
-    cardDetailsList: initialCardsDetails,
-    renderer: (cardDetails, pointMount) => {
-      const { name, link, likes, owner, _id: cardId } = cardDetails;
-      const { _id: cardOwnerId } = owner;
-
-      const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
-      renderCard(newCard, pointMount);
-    }
-  }, elementsSectionSelector);
 
   popupWithConfirm.setEventListeners();
   popupWithImage.setEventListeners();
   cardCreatePopup.setEventListeners();
   profileEditPopup.setEventListeners();
   avatarEditPopup.setEventListeners();
-  section.renderCards();
-
-  // Изменение профиля 
-
 
   const userNameInput = '.modal__description_type_name';
   const userInfoInput = '.modal__description_type_about-self';
-
   const modalWindowProfile = document.querySelector('.modal__overlay');
   const profile = document.querySelector('.profile');
-  const editButton = profile.querySelector('.button_edit');
+  const buttonEdit = profile.querySelector('.button_edit');
   const avatarSetButton = profile.querySelector('.button_edit-avatar');
-  const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
-  const buttonSubmitEdit = document.querySelector('.button_submit-edit');
-  
   const inputNameFormProfile = modalWindowProfile.querySelector(userNameInput);
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
-
-  editButton.addEventListener('click', async function () {
-    const { userName, userInfo } = await userCard.getUserInfo();
-
-    inputNameFormProfile.value = userName;
-    inputAboutSelfFormProfile.value = userInfo;
-
-    profileEditPopup.open();
-  });
+  const formAddNewCardSelector = '.modal__add';
+  const buttonAdd = document.querySelector('.button_add');
+  const formAddNewCard = document.querySelector(formAddNewCardSelector);
+  const buttonSubmitAddCard = formAddNewCard.querySelector('.button_submit');
 
   avatarSetButton.addEventListener('click', function () {
     avatarEditPopup.open();
   });
 
-  // Форма добавления карточки
-
-  const formAddNewCardSelector = '.modal__add';
-
-  const addButton = document.querySelector('.button_add');
-  const formAddNewCard = document.querySelector(formAddNewCardSelector);
-  const addNewCardButtonSubmit = formAddNewCard.querySelector('.button_submit');
-
-  addButton.addEventListener('click', () => {
+  buttonAdd.addEventListener('click', () => {
     cardCreatePopup.open();
   })
+
+  let myId;
+  let cardsSection;
+
+  Promise.all([
+    api.getAboutMe(),
+    api.getInitialCards()
+  ])
+    .then((values) => {
+      const [result1, result2] = values;
+      const myProfileDetails = typeof result1 === 'object' ? result1 : result2;
+      const initialCardsDetails = Array.isArray(result1) ? result1 : result2;
+      const { _id: ownerId, name, about, avatar } = myProfileDetails;
+
+      myId = ownerId;
+
+      userCard.setUserInfo(name, about);
+      userCard.setUserAvatar(avatar);
+
+      cardsSection = new Section({
+        cardDetailsList: initialCardsDetails,
+        renderer: (addItem, cardDetails) => {
+          const { name, link, likes, owner, _id: cardId } = cardDetails;
+          const { _id: cardOwnerId } = owner;
+
+          const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
+
+          addItem(newCard);
+        }
+      }, elementsSectionSelector);
+
+      buttonEdit.addEventListener('click', async function () {
+        const { userName, userInfo } = userCard.getUserInfo();
+
+        inputNameFormProfile.value = userName;
+        inputAboutSelfFormProfile.value = userInfo;
+
+        profileEditPopup.open();
+      });
+
+
+      cardsSection.renderCards();
+    })
+    .catch(e => console.log(e));
 
 
 
@@ -120,28 +129,20 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
     popupWithConfirm.open(card);
   }
 
-  async function handleDeleteCardSubmit(card) {
-    const cardId = card.getAttribute('card_id');
-
-    await api.deleteCard(cardId);
+  function handleDeleteCardSubmit(cardId) {
+    return api.deleteCard(cardId);
   }
 
-  async function handleFormAvatarSubmit(inputValuesList) {
-    buttonSubmitAvatar.textContent = 'Сохранение...';
-    
+  function handleFormAvatarSubmit(inputValuesList) {
     const [avatar] = inputValuesList;
-    await userCard.setUserAvatar(avatar);
 
-    buttonSubmitAvatar.textContent = 'Сохранить';
+    return userCard.setUserAvatar(avatar);
   }
 
-  async function handleFormProfileSubmit(inputValuesList) {
-    buttonSubmitEdit.textContent = 'Сохранение...';
-
+  function handleFormProfileSubmit(inputValuesList) {
     const [name, info] = inputValuesList;
-    await userCard.setUserInfo(name, info);
 
-    buttonSubmitEdit.textContent = 'Сохранить';
+    return userCard.setUserInfo(name, info);
   }
 
   function createCard(details) {
@@ -150,72 +151,59 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
       '#cardTemplate',
       handleCardClick,
       handleDeleteCardButtonClick,
-      {
-        add: handleLikeAddClick,
-        remove: handleLikeRemoveClick,
-      },
+      handleLikeUpdate,
     );
 
     return card.createCard();
   }
 
-  function renderCard(newCard, pointMount) {
-    pointMount.append(newCard);
+  function handleCardClick(card) {
+    popupWithImage.open(card);
   }
 
-
-  function handleCardClick(event) {
-    popupWithImage.open(event.target);
-  }
-
-  async function handleGetUserInfo() {
-    return api.getAboutMe();
-  }
-
-  async function handleSetUserInfo(name, about) {
+  function handleSetUserInfo(name, about) {
     return api.updateAboutMe(name, about);
   }
 
-  async function handleSetNewAvatar(avatar) {
+  function handleSetNewAvatar(avatar) {
     return api.updateMyAvatar(avatar);
   }
 
-  async function handleLikeAddClick(cardId) {
-    return api.addLike(cardId);
-  }
-
-  function handleLikeRemoveClick(cardId) {
-    return api.removeLike(cardId);
+  function handleLikeUpdate(isLiked, cardId) {
+    return isLiked
+      ? api.removeLike(cardId)
+      : api.addLike(cardId);
   }
 
   function createFormValidator(form) {
-    return new FormValidator({
-      inputSelector: '.modal__description',
-      submitButtonSelector: '.button_submit',
-      inactiveButtonClass: 'button_submit-disabled',
-      inputErrorClass: 'modal__description_type_error',
-      errorClass: 'modal__description-error_active'
-    }, form
-    );
+    const formName = form.getAttribute('name');
+
+    return {
+      formName,
+      validator: new FormValidator({
+        inputSelector: '.modal__description',
+        submitButtonSelector: '.button_submit',
+        inactiveButtonClass: 'button_submit-disabled',
+        inputErrorClass: 'modal__description_type_error',
+        errorClass: 'modal__description-error_active'
+      }, form
+      )
+    }
   }
 
-  async function handleFormAddSubmit(inputValuesList) {
+  function handleFormAddSubmit(inputValuesList) {
     const [nameValue, linkValue] = inputValuesList;
 
-    addNewCardButtonSubmit.textContent='Создание...';
-
-    const insertResult = await api.createCard(nameValue, linkValue);
-
-    const { name, link, likes, owner, _id: cardId } = insertResult;
-    const { _id: cardOwnerId } = owner;
-
-    const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
-
-    addNewCardButtonSubmit.textContent='Создать';
-
-    section.addItem(newCard);
-
-    formValidatorsList[1].disableSubmitButton(addNewCardButtonSubmit);
+    return api.createCard(nameValue, linkValue)
+      .then((card) => {
+        const { name, link, likes, owner, _id: cardId } = card;
+        const { _id: cardOwnerId } = owner;
+        const newCard = createCard({ title: name, link, likes, cardId, ownerId: myId, cardOwnerId });
+        cardsSection.addItem(newCard);
+      })
+      .then(() => {
+        formValidatorsList.add_card.disableSubmitButton(buttonSubmitAddCard);
+      });
   }
 
 })();
