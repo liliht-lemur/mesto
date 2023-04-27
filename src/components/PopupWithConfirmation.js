@@ -22,6 +22,8 @@ export class PopupWithConfirmation extends Popup {
 
       this._buttonSubmitDelete.textContent = 'Удаление...';
 
+      console.log({2:this._card })
+
       const cardId = this._card.getId();
       const card = this._card.getCard();
 

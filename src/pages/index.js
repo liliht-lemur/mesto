@@ -128,6 +128,9 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
 
 
+
+
+
   async function handleFormAvatarSubmit(inputValuesList) {
     buttonSubmitAvatar.textContent = 'Сохранение...';
 
@@ -152,10 +155,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
       '#cardTemplate',
       handleCardClick,
       handleDeleteCardButtonClick,
-      {
-        add: handleLikeAddClick,
-        remove: handleLikeRemoveClick,
-      },
+      handleLikeUpdate,
     );
 
     return card.createCard();
@@ -194,13 +194,16 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
     return api.updateMyAvatar(avatar);
   }
 
-  async function handleLikeAddClick(cardId) {
-    return api.addLike(cardId);
+
+  async function handleLikeUpdate(isLiked, cardId) {
+    return isLiked 
+    ? api.removeLike(cardId)
+    : api.addLike(cardId);
   }
 
-  function handleLikeRemoveClick(cardId) {
-    return api.removeLike(cardId);
-  }
+  // function handleLikeRemoveClick(cardId) {
+  //   return api.removeLike(cardId);
+  // }
 
   function createFormValidator(form) {
     return new FormValidator({
