@@ -70,14 +70,19 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._buttonLike.addEventListener('click', (event) => {
-      this._handleLikeClick(event);
+    this._buttonLike.addEventListener('click', () => {
+      this._handleLikeClick();
     });
-    this._buttonDelete.addEventListener('click', async () => {
+    this._buttonDelete.addEventListener('click', () => {
       this._handleDeleteButton();
     });
 
-    this._cardImage.addEventListener('click', this._handleCardClick);
+    this._cardImage.addEventListener('click', () => {
+      this._handleCardClick({
+        alt: this._cardTitle.textContent, 
+        src: this._cardImage.getAttribute('src')
+      })
+    });
   }
 
   _handleLikeClick() {

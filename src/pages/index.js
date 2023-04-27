@@ -50,16 +50,11 @@ import './index.css';
     { handleSetUserInfo, handleSetNewAvatar }
   );
 
-
   popupWithConfirm.setEventListeners();
   popupWithImage.setEventListeners();
   cardCreatePopup.setEventListeners();
   profileEditPopup.setEventListeners();
   avatarEditPopup.setEventListeners();
-
-
-  // Изменение профиля 
-
 
   const userNameInput = '.modal__description_type_name';
   const userInfoInput = '.modal__description_type_about-self';
@@ -67,23 +62,16 @@ import './index.css';
   const profile = document.querySelector('.profile');
   const buttonEdit = profile.querySelector('.button_edit');
   const avatarSetButton = profile.querySelector('.button_edit-avatar');
-
-  //const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
-  // const buttonSubmitEdit = document.querySelector('.button_submit-edit');
-
   const inputNameFormProfile = modalWindowProfile.querySelector(userNameInput);
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
-
-  avatarSetButton.addEventListener('click', function () {
-    avatarEditPopup.open();
-  });
-
-  // Форма добавления карточки
-
   const formAddNewCardSelector = '.modal__add';
   const buttonAdd = document.querySelector('.button_add');
   const formAddNewCard = document.querySelector(formAddNewCardSelector);
   const buttonSubmitAddCard = formAddNewCard.querySelector('.button_submit');
+
+  avatarSetButton.addEventListener('click', function () {
+    avatarEditPopup.open();
+  });
 
   buttonAdd.addEventListener('click', () => {
     cardCreatePopup.open();
@@ -109,13 +97,13 @@ import './index.css';
 
       cardsSection = new Section({
         cardDetailsList: initialCardsDetails,
-        renderer: (cardDetails, pointMount) => {
+        renderer: (addItem, cardDetails) => {
           const { name, link, likes, owner, _id: cardId } = cardDetails;
           const { _id: cardOwnerId } = owner;
 
           const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
 
-          renderCard(newCard, pointMount);
+          addItem(newCard);
         }
       }, elementsSectionSelector);
 
@@ -147,16 +135,14 @@ import './index.css';
 
   function handleFormAvatarSubmit(inputValuesList) {
     const [avatar] = inputValuesList;
-    return userCard.setUserAvatar(avatar);
 
-    // buttonSubmitAvatar.textContent = 'Сохранить';
+    return userCard.setUserAvatar(avatar);
   }
 
   function handleFormProfileSubmit(inputValuesList) {
     const [name, info] = inputValuesList;
-    return userCard.setUserInfo(name, info);
 
-    // buttonSubmitEdit.textContent = 'Сохранить';
+    return userCard.setUserInfo(name, info);
   }
 
   function createCard(details) {
@@ -171,12 +157,8 @@ import './index.css';
     return card.createCard();
   }
 
-  function renderCard(newCard, pointMount) {
-    pointMount.append(newCard);
-  }
-
-  function handleCardClick(event) {
-    popupWithImage.open(event.target);
+  function handleCardClick(card) {
+    popupWithImage.open(card);
   }
 
   function handleSetUserInfo(name, about) {

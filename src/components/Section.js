@@ -7,7 +7,7 @@ export class Section {
 
   renderCards() {
       this._cardDetailsList.forEach((item) => {
-        this._renderer(item, this._container);
+        this._renderer(this.addItem.bind(this), item);
       });
   }
 
@@ -15,4 +15,3 @@ export class Section {
     this._container.prepend(newCard);
   }
 }
-
