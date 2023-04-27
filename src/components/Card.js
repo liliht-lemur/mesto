@@ -24,6 +24,7 @@ export class Card {
     this._buttonLike = this._newCard.querySelector('.element__like');
     this._counterLike = this._newCard.querySelector('.element__like-counter');
     this._buttonDelete = this._newCard.querySelector('.element__delete');
+
   }
 
   _getTemplate() {
@@ -33,10 +34,12 @@ export class Card {
       .querySelector('.element')
       .cloneNode(true);
   }
-  
+
+  getId() {
+    return this._cardId;
+  }
 
   createCard() {
-    this._newCard.setAttribute('card_id', this._cardId);
     this._cardTitle.textContent = this._title;
     this._cardImage.setAttribute('src', this._link);
     this._cardImage.setAttribute('alt', this._title);
@@ -65,19 +68,21 @@ export class Card {
     this._buttonLike.addEventListener('click', (event) => {
       this._handleLikeClick(event);
     });
-    this._buttonDelete.addEventListener('click', async (event)=> {
-      await this._handleDeleteButton(event.target);
+    this._buttonDelete.addEventListener('click', async () => {
+      this._handleDeleteButton();
     });
 
     this._cardImage.addEventListener('click', this._handleCardClick);
   }
 
-  async _handleLikeClick(event) {
-    const button = event.target;
-
+  async _handleLikeClick() {
     const { likes } = this._isILike
       ? await this._handleLikeRemove(this._cardId)
       : await this._handleLikeAdd(this._cardId);
+
+    this._isILike
+      ? this._buttonLike.classList.remove('element__like_active')
+      : this._buttonLike.classList.add('element__like_active');
 
     this._likes = likes;
     this._likesLength = this._likes.length;
@@ -85,12 +90,9 @@ export class Card {
     this._counterLike.textContent = this._likesLength;
 
 
-    button.classList.toggle('element__like_active');
   };
 
-  async _handleDeleteButton(button) {
-    const card = button.closest('.element');
-
-    await this._handleDeleteCardButtonClick(card);
+  _handleDeleteButton() {
+    this._handleDeleteCardButtonClick(this._newCard , this._cardId);
   };
 }

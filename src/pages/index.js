@@ -60,6 +60,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
       const { _id: cardOwnerId } = owner;
 
       const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
+
       renderCard(newCard, pointMount);
     }
   }, elementsSectionSelector);
@@ -83,7 +84,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   const avatarSetButton = profile.querySelector('.button_edit-avatar');
   const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
   const buttonSubmitEdit = document.querySelector('.button_submit-edit');
-  
+
   const inputNameFormProfile = modalWindowProfile.querySelector(userNameInput);
   const inputAboutSelfFormProfile = modalWindowProfile.querySelector(userInfoInput);
 
@@ -116,19 +117,20 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
   // functions block
 
-  function handleDeleteCardButtonClick(card) {
-    popupWithConfirm.open(card);
+  function handleDeleteCardButtonClick(card, cardId) {
+    popupWithConfirm.open(card, cardId);
   }
 
-  async function handleDeleteCardSubmit(card) {
-    const cardId = card.getAttribute('card_id');
-
-    await api.deleteCard(cardId);
+  async function handleDeleteCardSubmit(cardId) {
+    return api.deleteCard(cardId);
   }
+
+
+
 
   async function handleFormAvatarSubmit(inputValuesList) {
     buttonSubmitAvatar.textContent = 'Сохранение...';
-    
+
     const [avatar] = inputValuesList;
     await userCard.setUserAvatar(avatar);
 
@@ -162,6 +164,18 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   function renderCard(newCard, pointMount) {
     pointMount.append(newCard);
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   function handleCardClick(event) {
@@ -202,7 +216,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
   async function handleFormAddSubmit(inputValuesList) {
     const [nameValue, linkValue] = inputValuesList;
 
-    addNewCardButtonSubmit.textContent='Создание...';
+    addNewCardButtonSubmit.textContent = 'Создание...';
 
     const insertResult = await api.createCard(nameValue, linkValue);
 
@@ -211,7 +225,7 @@ import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
     const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
 
-    addNewCardButtonSubmit.textContent='Создать';
+    addNewCardButtonSubmit.textContent = 'Создать';
 
     cardsSection.addItem(newCard);
 
