@@ -13,18 +13,14 @@ export class UserInfo {
 
   }
 
-  async getUserInfo() {
-    const { name, about, avatar } = await this._getUserInfo();
-
+  getUserInfo() {
     return {
-      userName: name,
-      userInfo: about,
-      avatar,
+      userName: this._userNameElem.textContent,
+      userInfo: this._userInfoElem.textContent,
     }
   }
 
-  async setUserInfo(userName, userInfo) {
-
+  setUserInfo(userName, userInfo) {
     this._buttonSubmitEdit.textContent = 'Сохранение...';
     this._setUserInfo(userName, userInfo)
     .then((details)=> {
