@@ -5,8 +5,8 @@ export class PopupWithConfirmation extends Popup {
     super(popupSelector);
     this._form = this._popup.querySelector('.forms');
     this._submitCallback = submitCallback;
-    this._buttonSubmitDelete = this._form.querySelector('.button_submit-delete');
     this._card = null;
+    this._buttonSubmit = this._form.querySelector('.button_submit');
   }
 
   open(card) {
@@ -14,13 +14,15 @@ export class PopupWithConfirmation extends Popup {
     super.open();
   }
 
+  setButtonText(text) {
+    this._buttonSubmit.textContent = text;
+  }
+
   setEventListeners() {
     super.setEventListeners();
 
     this._form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this._buttonSubmitDelete.textContent = 'Удаление...';
-
       this._submitCallback(this._card);
     });
   }

@@ -1,34 +1,24 @@
 export class UserInfo {
-  constructor({ userNameSelector, userInfoSelector, userAvatarSelector }, handlersApi) {
+  constructor(userNameSelector, userInfoSelector, userAvatarSelector) {
     this._userNameElem = document.querySelector(userNameSelector);
     this._userInfoElem = document.querySelector(userInfoSelector);
     this._userAvatarElem = document.querySelector(userAvatarSelector);
-
-    this._setUserInfo = handlersApi.handleSetUserInfo;
-    this._setUserAvatar = handlersApi.handleSetNewAvatar;
   }
 
   getUserInfo() {
     return {
       userName: this._userNameElem.textContent,
       userInfo: this._userInfoElem.textContent,
+      userAvatar: this._userAvatarElem.getAttribute('src')
     }
   }
 
-  updatePageAvatar(avatar) {
+  setUserAvatar(avatar) {
     this._userAvatarElem.setAttribute('src', avatar);
   }
 
-  updatePageUserInfo(name, about) {
+  setUserInfo(name, about) {
     this._userNameElem.textContent = name;
     this._userInfoElem.textContent = about;
-  }
-
-  setUserInfo(userName, userInfo) {
-    return this._setUserInfo(userName, userInfo);
-  }
-
-  setUserAvatar(avatar) {
-    return this._setUserAvatar(avatar);
   }
 }

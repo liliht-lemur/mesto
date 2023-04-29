@@ -4,8 +4,8 @@ export class Card {
     this._link = details.link;
     this._likes = details.likes;
     this._cardId = details.cardId;
+    this._userId = details.userId;
     this._ownerId = details.ownerId;
-    this._cardOwnerId = details.cardOwnerId;
 
     this._likesLength = this._likes.length;
     this.isILike = this._checkIsLiked();
@@ -51,7 +51,7 @@ export class Card {
       this._buttonLike.classList.add('element__like_active');
     }
 
-    if (this._cardOwnerId !== this._ownerId) {
+    if (this._ownerId !== this._userId) {
       this._buttonDelete.classList.add('element__delete_hidden');
     }
 
@@ -61,7 +61,7 @@ export class Card {
   }
 
   _checkIsLiked() {
-    const withMyLike = this._likes.filter(person => person._id === this._ownerId);
+    const withMyLike = this._likes.filter(person => person._id === this._userId);
 
     return Boolean(withMyLike.length);
   }
