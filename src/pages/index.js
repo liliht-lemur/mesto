@@ -45,10 +45,8 @@ import './index.css';
   const avatarEditPopup = new PopupWithForm(modalWindowAvatarSelector, handleFormAvatarSubmit);
 
 
-  const userCard = new UserInfo(
-    { userNameSelector, userInfoSelector, userAvatarSelector },
-    { handleSetUserInfo, handleSetNewAvatar }
-  );
+  const userCard = new UserInfo(userNameSelector, userInfoSelector, userAvatarSelector);
+  // { handleSetUserInfo, handleSetNewAvatar }
 
   popupWithConfirm.setEventListeners();
   popupWithImage.setEventListeners();
@@ -70,6 +68,7 @@ import './index.css';
   const buttonSubmitAddCard = formAddNewCard.querySelector('.button_submit');
   const buttonSubmitEdit = document.querySelector('.button_submit-edit');
   const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
+  const buttonSubmitDelete = document.querySelector('.button_submit-delete');
 
   avatarSetButton.addEventListener('click', function () {
     avatarEditPopup.open();
@@ -88,20 +87,20 @@ import './index.css';
   ])
     .then((values) => {
       const [myProfileDetails, initialCardsDetails] = values;
-      const { _id: ownerId, name, about, avatar } = myProfileDetails;
+      const { _id: userId, name, about, avatar } = myProfileDetails;
 
-      myId = ownerId;
+      myId = userId;
 
-      userCard.updatePageUserInfo(name, about);
-      userCard.updatePageAvatar(avatar);
+      userCard.setUserInfo(name, about);
+      userCard.setUserAvatar(avatar);
 
       cardsSection = new Section({
         cardDetailsList: initialCardsDetails,
         renderer: function (cardDetails) {
           const { name, link, likes, owner, _id: cardId } = cardDetails;
-          const { _id: cardOwnerId } = owner;
+          const { _id: ownerId } = owner;
 
-          const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
+          const newCard = createCard({ title: name, link, likes, cardId, userId, ownerId });
 
           this.addItem(newCard);
         }
@@ -126,65 +125,78 @@ import './index.css';
 
   // submit callbacks block
 
-  function handleFormAvatarSubmit(popup) {
-    const [avatar] = popup.getInputValues();
+  function handleFormAvatarSubmit(inputValues) {
+    const [avatar] = inputValues;
 
-    popup.setButtonText('Создание...');
+    avatarEditPopup.setButtonText('Сохранение...');
 
-    return userCard.setUserAvatar(avatar)
+    return api.updateMyAvatar(avatar)
+      .then((details) => {
+        userCard.setUserAvatar(details.avatar);
+        avatarEditPopup.close();
+      })
       .catch(e => console.log(e))
       .finally(() => {
-        popup.close()
+        avatarEditPopup.setButtonText('Сохранить');
       });
   }
 
-  function handleFormProfileSubmit(popup) {
-    const [name, info] = popup.getInputValues();
+  function handleFormProfileSubmit(inputValues) {
+    const [name, info] = inputValues;
 
-    popup.setButtonText('Сохранение...');
+    profileEditPopup.setButtonText('Сохранение...');
 
-    return userCard.setUserInfo(name, info)
+    return api.updateAboutMe(name, info)
+      .then((details) => {
+        userCard.setUserInfo(details.name, details.about);
+        profileEditPopup.close();
+      })
       .catch(e => console.log(e))
       .finally(() => {
-        popup.close()
+        profileEditPopup.setButtonText('Сохранить');
       });
   }
 
-  function handleFormAddSubmit(popup) {
-    const [nameValue, linkValue] = popup.getInputValues();
+  function handleFormAddSubmit(inputValues) {
+    const [nameValue, linkValue] = inputValues;
 
-    popup.setButtonText('Создание...');
+    cardCreatePopup.setButtonText('Создание...');
 
     return api.createCard(nameValue, linkValue)
       .then((card) => {
         const { name, link, likes, owner, _id: cardId } = card;
-        const { _id: cardOwnerId } = owner;
-        const newCard = createCard({ title: name, link, likes, cardId, ownerId: myId, cardOwnerId });
+        const { _id: ownerId } = owner;
+        const newCard = createCard({ title: name, link, likes, cardId, userId: myId, ownerId });
         cardsSection.addItem(newCard);
       })
       .then(() => {
         formValidatorsList.add_card.disableSubmitButton(buttonSubmitAddCard);
+        cardCreatePopup.close();
       })
       .catch(e => console.log(e))
       .finally(() => {
-        popup.close()
+        cardCreatePopup.setButtonText('Создать');
       });
   }
 
   function handleDeleteCardSubmit(card) {
     const cardId = card.getId();
 
+    popupWithConfirm.setButtonText('Удаление...');
+
     return api.deleteCard(cardId)
+      .then(() => {
+        card.deleteCard();
+        this.close();
+      })
       .catch((e) => console.log(e))
       .finally(() => {
-        this._buttonSubmitDelete.textContent = 'Да';
-        this._card.deleteCard();
-        this.close();
+        popupWithConfirm.setButtonText('Да');
       });
   }
 
 
-// other callbacks block
+  // other callbacks block
 
   function handleDeleteCardButtonClick(card) {
     popupWithConfirm.open(card);
@@ -204,26 +216,6 @@ import './index.css';
 
   function handleCardClick(card) {
     popupWithImage.open(card);
-  }
-
-  function handleSetUserInfo(name, about) {
-    buttonSubmitEdit.textContent = 'Сохранение...';
-
-    return api.updateAboutMe(name, about)
-    .then((details)=> {
-      userCard.updatePageUserInfo(details.name, details.about);
-    })
-    .catch(e => console.log(e));
-  }
-
-  function handleSetNewAvatar(avatar) {
-    buttonSubmitAvatar.textContent = 'Сохранение...';
-
-    return api.updateMyAvatar(avatar)
-    .then((details)=> {
-      userCard.updatePageAvatar(details.avatar);
-    })
-    .catch(e => console.log(e));
   }
 
   function handleLikeUpdate(card) {
