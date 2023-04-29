@@ -68,6 +68,8 @@ import './index.css';
   const buttonAdd = document.querySelector('.button_add');
   const formAddNewCard = document.querySelector(formAddNewCardSelector);
   const buttonSubmitAddCard = formAddNewCard.querySelector('.button_submit');
+  const buttonSubmitEdit = document.querySelector('.button_submit-edit');
+  const buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
 
   avatarSetButton.addEventListener('click', function () {
     avatarEditPopup.open();
@@ -85,15 +87,13 @@ import './index.css';
     api.getInitialCards()
   ])
     .then((values) => {
-      const [result1, result2] = values;
-      const myProfileDetails = typeof result1 === 'object' ? result1 : result2;
-      const initialCardsDetails = Array.isArray(result1) ? result1 : result2;
+      const [myProfileDetails, initialCardsDetails] = values;
       const { _id: ownerId, name, about, avatar } = myProfileDetails;
 
       myId = ownerId;
 
-      userCard.setUserInfo(name, about);
-      userCard.setUserAvatar(avatar);
+      userCard.updatePageUserInfo(name, about);
+      userCard.updatePageAvatar(avatar);
 
       cardsSection = new Section({
         cardDetailsList: initialCardsDetails,
@@ -106,6 +106,7 @@ import './index.css';
           addItem(newCard);
         }
       }, elementsSectionSelector);
+
 
       buttonEdit.addEventListener('click', async function () {
         const { userName, userInfo } = userCard.getUserInfo();
@@ -123,26 +124,72 @@ import './index.css';
 
 
 
-  // functions block
+  // ---------------------------------------- all functions block ---------------------------------------- 
+
+  // submit callbacks block
+
+  function handleFormAvatarSubmit(popup) {
+    const [avatar] = popup.getInputValues();
+
+    popup.setButtonText('Создание...');
+
+    return userCard.setUserAvatar(avatar)
+      .catch(e => console.log(e))
+      .finally(() => {
+        popup.close()
+      });
+  }
+
+  function handleFormProfileSubmit(popup) {
+    const [name, info] = popup.getInputValues();
+
+    popup.setButtonText('Сохранение...');
+
+    return userCard.setUserInfo(name, info)
+      .catch(e => console.log(e))
+      .finally(() => {
+        popup.close()
+      });
+  }
+
+  function handleFormAddSubmit(popup) {
+    const [nameValue, linkValue] = popup.getInputValues();
+
+    popup.setButtonText('Создание...');
+
+    return api.createCard(nameValue, linkValue)
+      .then((card) => {
+        const { name, link, likes, owner, _id: cardId } = card;
+        const { _id: cardOwnerId } = owner;
+        const newCard = createCard({ title: name, link, likes, cardId, ownerId: myId, cardOwnerId });
+        cardsSection.addItem(newCard);
+      })
+      .then(() => {
+        formValidatorsList.add_card.disableSubmitButton(buttonSubmitAddCard);
+      })
+      .catch(e => console.log(e))
+      .finally(() => {
+        popup.close()
+      });
+  }
+
+  function handleDeleteCardSubmit(card) {
+    const cardId = card.getId();
+
+    return api.deleteCard(cardId)
+      .catch((e) => console.log(e))
+      .finally(() => {
+        this._buttonSubmitDelete.textContent = 'Да';
+        this._card.deleteCard();
+        this.close();
+      });
+  }
+
+
+// other callbacks block
 
   function handleDeleteCardButtonClick(card) {
     popupWithConfirm.open(card);
-  }
-
-  function handleDeleteCardSubmit(cardId) {
-    return api.deleteCard(cardId);
-  }
-
-  function handleFormAvatarSubmit(inputValuesList) {
-    const [avatar] = inputValuesList;
-
-    return userCard.setUserAvatar(avatar);
-  }
-
-  function handleFormProfileSubmit(inputValuesList) {
-    const [name, info] = inputValuesList;
-
-    return userCard.setUserInfo(name, info);
   }
 
   function createCard(details) {
@@ -162,17 +209,38 @@ import './index.css';
   }
 
   function handleSetUserInfo(name, about) {
-    return api.updateAboutMe(name, about);
+    buttonSubmitEdit.textContent = 'Сохранение...';
+
+    return api.updateAboutMe(name, about)
+    .then((details)=> {
+      userCard.updatePageUserInfo(details.name, details.about);
+    })
+    .catch(e => console.log(e));
   }
 
   function handleSetNewAvatar(avatar) {
-    return api.updateMyAvatar(avatar);
+    buttonSubmitAvatar.textContent = 'Сохранение...';
+
+    return api.updateMyAvatar(avatar)
+    .then((details)=> {
+      userCard.updatePageAvatar(details.avatar);
+    })
+    .catch(e => console.log(e));
   }
 
-  function handleLikeUpdate(isLiked, cardId) {
-    return isLiked
+  function handleLikeUpdate(card) {
+    const cardId = card.getId();
+
+    const response = card.isILike
       ? api.removeLike(cardId)
       : api.addLike(cardId);
+
+    return response
+      .then(newCard => {
+        const { likes } = newCard;
+        card.updateLikes(likes);
+      })
+      .catch(e => console.log(e))
   }
 
   function createFormValidator(form) {
@@ -189,21 +257,6 @@ import './index.css';
       }, form
       )
     }
-  }
-
-  function handleFormAddSubmit(inputValuesList) {
-    const [nameValue, linkValue] = inputValuesList;
-
-    return api.createCard(nameValue, linkValue)
-      .then((card) => {
-        const { name, link, likes, owner, _id: cardId } = card;
-        const { _id: cardOwnerId } = owner;
-        const newCard = createCard({ title: name, link, likes, cardId, ownerId: myId, cardOwnerId });
-        cardsSection.addItem(newCard);
-      })
-      .then(() => {
-        formValidatorsList.add_card.disableSubmitButton(buttonSubmitAddCard);
-      });
   }
 
 })();
