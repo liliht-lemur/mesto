@@ -17,19 +17,11 @@ export class PopupWithConfirmation extends Popup {
   setEventListeners() {
     super.setEventListeners();
 
-    this._form.addEventListener('submit', async (event) => {
+    this._form.addEventListener('submit', (event) => {
       event.preventDefault();
       this._buttonSubmitDelete.textContent = 'Удаление...';
 
-      const cardId = this._card.getId();
-
-      this._submitCallback(cardId)
-      .catch((e) => console.log(e))
-      .finally(()=>{
-        this._buttonSubmitDelete.textContent = 'Да';
-        this._card.deleteCard();
-        this.close();
-      });;
+      this._submitCallback(this._card);
     });
-  }s
+  }
 }

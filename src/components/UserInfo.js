@@ -3,13 +3,9 @@ export class UserInfo {
     this._userNameElem = document.querySelector(userNameSelector);
     this._userInfoElem = document.querySelector(userInfoSelector);
     this._userAvatarElem = document.querySelector(userAvatarSelector);
-    this._buttonSubmitEdit = document.querySelector('.button_submit-edit');
-    this._buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
 
-
-    this._setUserInfo = handlersApi.handleSetUserInfo
-    this._setUserAvatar = handlersApi.handleSetNewAvatar
-
+    this._setUserInfo = handlersApi.handleSetUserInfo;
+    this._setUserAvatar = handlersApi.handleSetNewAvatar;
   }
 
   getUserInfo() {
@@ -19,30 +15,20 @@ export class UserInfo {
     }
   }
 
-  setUserInfo(userName, userInfo) {
-    this._buttonSubmitEdit.textContent = 'Сохранение...';
-
-    return this._setUserInfo(userName, userInfo).then((details)=> {
-      this._userNameElem.textContent = details.name;
-      this._userInfoElem.textContent = details.about;
-    })
-    .catch(e => console.log(e))
-    .finally(() => {
-      this._buttonSubmitEdit.textContent = 'Сохранить';
-    });
+  updatePageAvatar(avatar) {
+    this._userAvatarElem.setAttribute('src', avatar);
   }
 
-  
-  setUserAvatar(avatar) {
-    this._buttonSubmitAvatar.textContent = 'Сохранение...';
+  updatePageUserInfo(name, about) {
+    this._userNameElem.textContent = name;
+    this._userInfoElem.textContent = about;
+  }
 
-    return this._setUserAvatar(avatar)
-    .then((details)=> {
-      this._userAvatarElem.setAttribute('src', details.avatar);
-    })
-    .catch(e => console.log(e))
-    .finally(() => {
-      this._buttonSubmitAvatar.textContent = 'Сохранить';
-    });
+  setUserInfo(userName, userInfo) {
+    return this._setUserInfo(userName, userInfo);
+  }
+
+  setUserAvatar(avatar) {
+    return this._setUserAvatar(avatar);
   }
 }
