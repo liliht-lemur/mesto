@@ -23,5 +23,5 @@ export class PopupWithConfirmation extends Popup {
 
       this._submitCallback(this._card);
     });
-  }s
+  }
 }

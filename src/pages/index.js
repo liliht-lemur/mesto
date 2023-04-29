@@ -97,18 +97,17 @@ import './index.css';
 
       cardsSection = new Section({
         cardDetailsList: initialCardsDetails,
-        renderer: (addItem, cardDetails) => {
+        renderer: function (cardDetails) {
           const { name, link, likes, owner, _id: cardId } = cardDetails;
           const { _id: cardOwnerId } = owner;
 
           const newCard = createCard({ title: name, link, likes, cardId, ownerId, cardOwnerId });
 
-          addItem(newCard);
+          this.addItem(newCard);
         }
       }, elementsSectionSelector);
 
-
-      buttonEdit.addEventListener('click', async function () {
+      buttonEdit.addEventListener('click', function () {
         const { userName, userInfo } = userCard.getUserInfo();
 
         inputNameFormProfile.value = userName;
@@ -116,7 +115,6 @@ import './index.css';
 
         profileEditPopup.open();
       });
-
 
       cardsSection.renderCards();
     })

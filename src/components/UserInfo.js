@@ -3,13 +3,9 @@ export class UserInfo {
     this._userNameElem = document.querySelector(userNameSelector);
     this._userInfoElem = document.querySelector(userInfoSelector);
     this._userAvatarElem = document.querySelector(userAvatarSelector);
-    // this._buttonSubmitEdit = document.querySelector('.button_submit-edit');
-    // this._buttonSubmitAvatar = document.querySelector('.button_submit-avatar');
 
-
-    this._setUserInfo = handlersApi.handleSetUserInfo
-    this._setUserAvatar = handlersApi.handleSetNewAvatar
-
+    this._setUserInfo = handlersApi.handleSetUserInfo;
+    this._setUserAvatar = handlersApi.handleSetNewAvatar;
   }
 
   getUserInfo() {
@@ -20,18 +16,18 @@ export class UserInfo {
   }
 
   updatePageAvatar(avatar) {
-    this._userAvatarElem.setAttribute('src',avatar);
+    this._userAvatarElem.setAttribute('src', avatar);
   }
 
-  updatePageUserInfo(name,about ) {
+  updatePageUserInfo(name, about) {
     this._userNameElem.textContent = name;
     this._userInfoElem.textContent = about;
   }
 
   setUserInfo(userName, userInfo) {
-    return this._setUserInfo(userName, userInfo)
+    return this._setUserInfo(userName, userInfo);
   }
-  
+
   setUserAvatar(avatar) {
     return this._setUserAvatar(avatar);
   }

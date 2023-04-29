@@ -11,13 +11,13 @@ export class Api {
     this._likesUrl = `/likes`;
   }
 
-   getInitialCards() {
+  getInitialCards() {
     const response = fetch(this._url, this._headers);
-    
+
     return this.handleResponse(response);
   }
 
-   createCard(name, link) {
+  createCard(name, link) {
     const response = fetch(this._url, {
       ...this._headers,
       method: 'POST',
@@ -30,7 +30,7 @@ export class Api {
     return this.handleResponse(response);
   }
 
-   deleteCard(cardId) {
+  deleteCard(cardId) {
     const response = fetch(`${this._url}/${cardId}`, {
       ...this._headers,
       method: 'DELETE',
@@ -39,13 +39,13 @@ export class Api {
     return this.handleResponse(response);
   }
 
-   getAboutMe() {
+  getAboutMe() {
     const response = fetch(this._aboutMeUrl, this._headers);
 
     return this.handleResponse(response);
   }
 
-   updateAboutMe(name, about) {
+  updateAboutMe(name, about) {
     const response = fetch(this._aboutMeUrl, {
       ...this._headers,
       method: 'PATCH',
@@ -58,7 +58,7 @@ export class Api {
     return this.handleResponse(response);
   }
 
-   updateMyAvatar(avatar) {
+  updateMyAvatar(avatar) {
     const response = fetch(`${this._aboutMeUrl}/avatar`, {
       ...this._headers,
       method: 'PATCH',
@@ -88,15 +88,15 @@ export class Api {
     return this.handleResponse(response);
   }
 
-   handleResponse(promise) {
+  handleResponse(promise) {
     return promise
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
 
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 }
 
